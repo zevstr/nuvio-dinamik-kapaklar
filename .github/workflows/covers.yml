@@ -1,6 +1,12 @@
 name: Günlük kapakları yenile
 on:
   workflow_dispatch:
+    inputs:
+      rotation_offset:
+        description: 'Önbellek testi için sonraki görsel (normal kullanım: 0)'
+        type: choice
+        options: ['0', '1']
+        default: '0'
   schedule:
     - cron: '17 3 * * *'
 
@@ -27,6 +33,7 @@ jobs:
         run: npm run build
         env:
           XPERIENCE_MANIFEST_URL: ${{ secrets.XPERIENCE_MANIFEST_URL }}
+          COVER_ROTATION_OFFSET: ${{ inputs.rotation_offset || '0' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

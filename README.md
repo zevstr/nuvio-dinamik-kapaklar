@@ -4,7 +4,7 @@ Xperience'taki **Yeni Hint Filmleri · Tümü** kataloğunun güncel içerikleri
 
 ## Durum
 
-İlk deneme sürümü. Canlı katalog bağlantısı, ilk yayın ve Nuvio önbellek testi tamamlanmadan çalışıyor kabul edilmemeli.
+İlk canlı katalog okuma ve GitHub Pages yayını 24 Ekim 2026'da başarılı oldu. [Canlı kapak](https://zevstr.github.io/nuvio-dinamik-kapaklar/). Nuvio cihazındaki görsel önbelleği ayrıca doğrulanmalıdır.
 
 ## Kurulum
 
@@ -18,6 +18,7 @@ Xperience'taki **Yeni Hint Filmleri · Tümü** kataloğunun güncel içerikleri
 ## Davranış
 
 - Günlük plan: Türkiye saatiyle yaklaşık **06:17**. Elle de çalıştırılabilir. GitHub zamanlamayı geciktirebilir; etkin olmayan public depolarda zamanlanmış işler durdurulabilir.
+- Elle çalıştırmada `rotation_offset=1`, aynı gün içindeki önbellek denemesi için sıradaki güncel yapımın görselini seçer. Zamanlanmış çalışmalarda değer her zaman 0'dır; gerçek güncelleme tarihi değiştirilmez.
 - Liste yeniden oluşturulmaz: Xperience'ın kendi `world_hi_latest_movies` katalog yanıtı okunur. Dil, yıl ve dijital yayın filtrelerinin sorumluluğu Xperience profilindedir. Bu katalog ülke IN seçimiyle tüm Hint dillerini içermelidir.
 - En güncel ilk sekiz içeriğin içinden güne göre bir yapım seçilir. Görsel yoksa aynı güncel listedeki bir sonraki yapım denenir. Eski yıllardan dolgu yapılmaz.
 - Kaynak fotoğraf sadece kırpılır/ölçeklenir; renkler, oyuncular ve yüzler yeniden üretilmez.
