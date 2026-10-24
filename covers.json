@@ -1,58 +1,1043 @@
 [
   {
     "slug": "yerli-diziler-yeni-bolum",
-    "catalogType": "series",
-    "catalogId": "airing_today_series~c2",
-    "heading": ["YERLİ", "DİZİLER"],
+    "heading": [
+      "YERLİ",
+      "DİZİLER"
+    ],
     "subtitle": "YENİ BÖLÜM · TÜRKİYE",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yerli Diziler • Yeni Bölüm",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "airing_today_series~c2"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yeni-filmler-dijitalde",
-    "catalogType": "movie",
-    "catalogId": "new_latest_digital_movies",
-    "heading": ["YENİ FİLMLER", "DİJİTALDE"],
+    "heading": [
+      "YENİ FİLMLER",
+      "DİJİTALDE"
+    ],
     "subtitle": "DİJİTALDE YENİ YAYINLAR",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yeni Filmler • Dijitalde",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "new_latest_digital_movies"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yeni-diziler",
-    "catalogType": "series",
-    "catalogId": "tmdb_new_releases_series",
-    "heading": ["YENİ", "DİZİLER"],
+    "heading": [
+      "YENİ",
+      "DİZİLER"
+    ],
     "subtitle": "YENİ HİKÂYELER · YENİ SEZONLAR",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yeni Diziler • 2026",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "tmdb_new_releases_series"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yabanci-diziler-yeni-bolum",
-    "catalogType": "series",
-    "catalogId": "airing_today_series",
-    "heading": ["YABANCI", "DİZİLER"],
+    "heading": [
+      "YABANCI",
+      "DİZİLER"
+    ],
     "subtitle": "YENİ BÖLÜM · DÜNYADAN",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yabancı Diziler • Yeni Bölüm",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "airing_today_series"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yeni-turk-filmleri",
-    "catalogType": "movie",
-    "catalogId": "world_tr_latest_movies",
-    "heading": ["YENİ TÜRK", "FİLMLERİ"],
+    "heading": [
+      "YENİ TÜRK",
+      "FİLMLERİ"
+    ],
     "subtitle": "TÜRK SİNEMASINDA YENİ YAYINLAR",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yeni Türk Filmleri",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_tr_latest_movies"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yeni-hint-filmleri",
-    "catalogType": "movie",
-    "catalogId": "world_hi_latest_movies",
-    "heading": ["YENİ HİNT", "FİLMLERİ"],
+    "heading": [
+      "YENİ HİNT",
+      "FİLMLERİ"
+    ],
     "subtitle": "TÜM DİLLER · GÜNCEL SEÇKİ",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yeni Hint Filmleri • Tümü",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_latest_movies"
+      }
+    ],
+    "policy": "latest"
   },
   {
     "slug": "yeni-kaliteli-hint-filmleri",
-    "catalogType": "movie",
-    "catalogId": "world_hi_latest_movies~c2",
-    "heading": ["YENİ HİNT", "SEÇKİSİ"],
+    "heading": [
+      "YENİ HİNT",
+      "SEÇKİSİ"
+    ],
     "subtitle": "KALİTELİ FİLMLER · 6.5+ PUAN",
-    "rotationPool": 8
+    "section": "En Yeniler",
+    "folderTitle": "Yeni Hint • Kaliteli",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_latest_movies~c2"
+      }
+    ],
+    "policy": "latest"
+  },
+  {
+    "slug": "en-iyi-filmler-imdb-250",
+    "heading": [
+      "IMDB",
+      "EN İYİ FİLMLER"
+    ],
+    "subtitle": "TÜM ZAMANLARIN EN İYİLERİ · TOP 250",
+    "section": "IMDB Seçkileri",
+    "folderTitle": "En İyi Filmler • IMDB 250",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "awards_imdb_top250_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "en-iyi-diziler-imdb-250",
+    "heading": [
+      "IMDB",
+      "EN İYİ DİZİLER"
+    ],
+    "subtitle": "TÜM ZAMANLARIN EN İYİLERİ · TOP 250",
+    "section": "IMDB Seçkileri",
+    "folderTitle": "En İyi Diziler • IMDB 250",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "awards_imdb_top250_series"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "populer-filmler-imdb",
+    "heading": [
+      "IMDB",
+      "POPÜLER FİLMLER"
+    ],
+    "subtitle": "ŞU AN ÖNE ÇIKAN YAPIMLAR",
+    "section": "IMDB Seçkileri",
+    "folderTitle": "Popüler Filmler • IMDB",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "trending_imdb_top100_movies"
+      }
+    ],
+    "policy": "popular"
+  },
+  {
+    "slug": "populer-diziler-imdb",
+    "heading": [
+      "IMDB",
+      "POPÜLER DİZİLER"
+    ],
+    "subtitle": "ŞU AN ÖNE ÇIKAN HİKÂYELER",
+    "section": "IMDB Seçkileri",
+    "folderTitle": "Popüler Diziler • IMDB",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "trending_imdb_top100_series"
+      }
+    ],
+    "policy": "popular"
+  },
+  {
+    "slug": "en-iyi-hint-filmleri",
+    "heading": [
+      "EN İYİ HİNT",
+      "FİLMLERİ"
+    ],
+    "subtitle": "HİNT SİNEMASINDAN GÜÇLÜ SEÇKİLER",
+    "section": "Hint Sineması",
+    "folderTitle": "En İyi Hint Filmleri",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_toprated_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "bollywood",
+    "heading": [
+      "BOLLYWOOD"
+    ],
+    "subtitle": "HİNDİ SİNEMASI",
+    "section": "Hint Sineması",
+    "folderTitle": "Bollywood",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_bollywood_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_bollywood_latest_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "tamil-sinemasi",
+    "heading": [
+      "TAMİL",
+      "SİNEMASI"
+    ],
+    "subtitle": "TAMİL DİLİNDE FİLMLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Tamil Sineması",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ta_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ta_latest_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "telugu-sinemasi",
+    "heading": [
+      "TELUGU",
+      "SİNEMASI"
+    ],
+    "subtitle": "TELUGU DİLİNDE FİLMLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Telugu Sineması",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_te_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_te_latest_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "malayalam-sinemasi",
+    "heading": [
+      "MALAYALAM",
+      "SİNEMASI"
+    ],
+    "subtitle": "MALAYALAM DİLİNDE FİLMLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Malayalam Sineması",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ml_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ml_latest_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "kannada-sinemasi",
+    "heading": [
+      "KANNADA",
+      "SİNEMASI"
+    ],
+    "subtitle": "KANNADA DİLİNDE FİLMLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Kannada Sineması",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_kn_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_kn_latest_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "aksiyon",
+    "heading": [
+      "AKSİYON"
+    ],
+    "subtitle": "TEMPOSU YÜKSEK HİKÂYELER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Aksiyon",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_action_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_action_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_action_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_action_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_action_toprated_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_action_toprated_series"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "komedi",
+    "heading": [
+      "KOMEDİ"
+    ],
+    "subtitle": "KEYİFLİ BİR MOLA",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Komedi",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_comedy_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_comedy_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_comedy_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_comedy_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_comedy_toprated_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_comedy_toprated_series"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "bilim-kurgu",
+    "heading": [
+      "BİLİM",
+      "KURGU"
+    ],
+    "subtitle": "HAYAL GÜCÜNÜN ÖTESİNDE",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Bilim Kurgu",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_scifi_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_scifi_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_scifi_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_scifi_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_scifi_toprated_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_scifi_toprated_series"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "gerilim",
+    "heading": [
+      "GERİLİM"
+    ],
+    "subtitle": "MERAKI SON ANA KADAR KORUYANLAR",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Gerilim",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_thriller_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_thriller_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_thriller_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_thriller_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_thriller_toprated_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "romantik-komedi",
+    "heading": [
+      "ROMANTİK",
+      "KOMEDİ"
+    ],
+    "subtitle": "AŞK VE KAHKAHA",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Romantik Komedi",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_romantic_comedy_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_romantic_comedy_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_romantic_comedy_latest_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_romantic_comedy_toprated_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "90-dakikadan-kisa",
+    "heading": [
+      "KISA BİR",
+      "MOLA"
+    ],
+    "subtitle": "90 DAKİKADAN KISA FİLMLER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "90 Dakikadan Kısa",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "runtime_short_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "90120-dakika",
+    "heading": [
+      "TAM",
+      "KARARINDA"
+    ],
+    "subtitle": "90–120 DAKİKALIK FİLMLER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "90–120 Dakika",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "runtime_standard_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "120150-dakika",
+    "heading": [
+      "UZUN BİR",
+      "HİKÂYE"
+    ],
+    "subtitle": "120–150 DAKİKALIK FİLMLER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "120–150 Dakika",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "runtime_long_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "150-dakika-ve-uzeri",
+    "heading": [
+      "EPİK",
+      "HİKÂYELER"
+    ],
+    "subtitle": "150 DAKİKA VE ÜZERİ",
+    "section": "Ne İzlesem?",
+    "folderTitle": "150 Dakika ve Üzeri",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "runtime_epic_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "gizli-hazineler",
+    "heading": [
+      "GİZLİ",
+      "HAZİNELER"
+    ],
+    "subtitle": "KEŞFEDİLMEYİ BEKLEYEN FİLMLER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Gizli Hazineler",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "themed_hidden_gems"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "themed_hidden_gems_tmdb_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "themed_hidden_gems_tmdb_series"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "turk-filmleri",
+    "heading": [
+      "TÜRK",
+      "FİLMLERİ"
+    ],
+    "subtitle": "TÜRK SİNEMASINDAN SEÇKİLER",
+    "section": "Keşfet",
+    "folderTitle": "Türk Filmleri",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_tr_latest_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_tr_popular_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_tr_toprated_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "dunya-sinemasi",
+    "heading": [
+      "DÜNYA",
+      "SİNEMASI"
+    ],
+    "subtitle": "SINIRLARIN ÖTESİNDE HİKÂYELER",
+    "section": "Keşfet",
+    "folderTitle": "Dünya Sineması",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ko_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_ja_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_fr_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_es_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_it_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_zh_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_de_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_gb_toprated_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "yildizlar",
+    "heading": [
+      "YILDIZLAR"
+    ],
+    "subtitle": "SEVDİĞİN OYUNCULARIN FİLMLERİ",
+    "section": "Keşfet",
+    "folderTitle": "Yıldızlar",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_dev_patel_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_dicaprio_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_hanks_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_denzel_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_pitt_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_cruise_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_keanu_reeves_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_bale_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_natalie_portman_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "actor_emma_stone_movies"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "marvel-cinematic-universe",
+    "heading": [
+      "MARVEL",
+      "EVRENİ"
+    ],
+    "subtitle": "BİRBİRİNE BAĞLANAN HİKÂYELER",
+    "section": "Film Serileri",
+    "folderTitle": "Marvel Cinematic Universe",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_mcu"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_marvel_universe_mdb"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "harry-potter",
+    "heading": [
+      "HARRY",
+      "POTTER"
+    ],
+    "subtitle": "BÜYÜCÜLÜK DÜNYASI",
+    "section": "Film Serileri",
+    "folderTitle": "Harry Potter",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_harry_potter"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "lord-of-the-rings",
+    "heading": [
+      "YÜZÜKLERİN",
+      "EFENDİSİ"
+    ],
+    "subtitle": "ORTA DÜNYA HİKÂYELERİ",
+    "section": "Film Serileri",
+    "folderTitle": "Lord of the Rings",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_lord_of_the_rings"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "star-wars",
+    "heading": [
+      "STAR WARS"
+    ],
+    "subtitle": "UZAK BİR GALAKSİ",
+    "section": "Film Serileri",
+    "folderTitle": "Star Wars",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_star_wars"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_universe_star_wars"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "the-hobbit",
+    "heading": [
+      "HOBBİT"
+    ],
+    "subtitle": "ORTA DÜNYADA BİR YOLCULUK",
+    "section": "Film Serileri",
+    "folderTitle": "The Hobbit",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_hobbit"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "james-bond",
+    "heading": [
+      "JAMES BOND"
+    ],
+    "subtitle": "007 KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "James Bond",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_bond"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "mission-impossible",
+    "heading": [
+      "GÖREVİMİZ",
+      "TEHLİKE"
+    ],
+    "subtitle": "İMKÂNSIZ GÖREVLER",
+    "section": "Film Serileri",
+    "folderTitle": "Mission Impossible",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_mission_impossible"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "indiana-jones",
+    "heading": [
+      "INDIANA",
+      "JONES"
+    ],
+    "subtitle": "MACERA KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "Indiana Jones",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_indiana_jones"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_universe_indiana_jones"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "jurassic-park",
+    "heading": [
+      "JURASSIC",
+      "PARK"
+    ],
+    "subtitle": "JURASSIC PARK VE JURASSIC WORLD",
+    "section": "Film Serileri",
+    "folderTitle": "Jurassic Park",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_jurassic_park"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_universe_jurassic"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "fast-furious",
+    "heading": [
+      "HIZLI VE",
+      "ÖFKELİ"
+    ],
+    "subtitle": "HIZLI VE ÖFKELİ KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "Fast & Furious",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_fast_furious"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "john-wick",
+    "heading": [
+      "JOHN WICK"
+    ],
+    "subtitle": "JOHN WICK KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "John Wick",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_john_wick"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "the-matrix",
+    "heading": [
+      "MATRIX"
+    ],
+    "subtitle": "GERÇEKLİĞİN ÖTESİNDE",
+    "section": "Film Serileri",
+    "folderTitle": "The Matrix",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_matrix"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "spider-man",
+    "heading": [
+      "ÖRÜMCEK",
+      "ADAM"
+    ],
+    "subtitle": "ÖRÜMCEK ADAM KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "Spider-Man",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_spider_man"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "superman",
+    "heading": [
+      "SUPERMAN"
+    ],
+    "subtitle": "SUPERMAN KOLEKSİYONU",
+    "section": "Film Serileri",
+    "folderTitle": "Superman",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_superman"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "batman",
+    "heading": [
+      "BATMAN"
+    ],
+    "subtitle": "GOTHAM HİKÂYELERİ",
+    "section": "Film Serileri",
+    "folderTitle": "Batman",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_batman"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "star-trek",
+    "heading": [
+      "STAR TREK"
+    ],
+    "subtitle": "YENİ DÜNYALARIN KEŞFİ",
+    "section": "Film Serileri",
+    "folderTitle": "Star Trek",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_star_trek"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "alien",
+    "heading": [
+      "ALIEN"
+    ],
+    "subtitle": "UZAYDA KORKU",
+    "section": "Film Serileri",
+    "folderTitle": "Alien",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_alien"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "terminator",
+    "heading": [
+      "TERMİNATÖR"
+    ],
+    "subtitle": "GELECEK İÇİN MÜCADELE",
+    "section": "Film Serileri",
+    "folderTitle": "Terminator",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_terminator"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "dune",
+    "heading": [
+      "DUNE"
+    ],
+    "subtitle": "ARRAKIS HİKÂYELERİ",
+    "section": "Film Serileri",
+    "folderTitle": "Dune",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_dune"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_universe_dune"
+      }
+    ],
+    "policy": "evergreen"
+  },
+  {
+    "slug": "avatar",
+    "heading": [
+      "AVATAR"
+    ],
+    "subtitle": "PANDORA DÜNYASI",
+    "section": "Film Serileri",
+    "folderTitle": "Avatar",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "collection_avatar"
+      }
+    ],
+    "policy": "evergreen"
   }
 ]

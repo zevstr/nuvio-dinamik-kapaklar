@@ -1,39 +1,33 @@
 # Ozan · Nuvio Dinamik Kapaklar
 
-Xperience'taki **En Yeniler** koleksiyonunun yedi klasörü için kendi güncel kataloğundan gerçek görsel seçer. Fotoğrafın üzerine sabit Türkçe tipografi yerleştirir. İnsan yüzleri veya sahneler yapay zekâ ile yeniden üretilmez.
+Xperience profilindeki **6 koleksiyon, 50 klasör** için kendi kataloglarından yapım görselleri seçer. Katalog listelerini veya filtrelerini değiştirmez. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
 
-Kapsam: Yerli Diziler · Yeni Bölüm, Yeni Filmler · Dijitalde, Yeni Diziler, Yabancı Diziler · Yeni Bölüm, Yeni Türk Filmleri, Yeni Hint Filmleri · Tümü ve Yeni Hint · Kaliteli. Her kapak kendi katalog kimliğini kullanır; kaliteli Hint listesi diğer Hint listesinin kopyası değildir.
+## Günlük seçim
 
-## Durum
+- Türkiye saatiyle yaklaşık **06:17** kontrol edilir. Her gün zorunlu fotoğraf değişimi yapılmaz.
+- Güncellik yalnızca En Yeniler seçimine ağırlık verir. Klasik film, tür ve seri koleksiyonlarında eski yapımlar elenmez.
+- Katalogda sağlanıyorsa puan, oy sayısı ve popülerlik kullanılır. Bu alanlar yoksa uydurulmaz; kaynak sırası ve diğer mevcut bilgilerle değerlendirme yapılır.
+- Yeni film kapaklarında kısa yapımlar; yeni dizi kapaklarında haber, talk-show ve reality içerikleri geri planda tutulur. Bu kural yalnızca görsel seçimini etkiler.
+- Tercih gerçek yatay arka plan görselidir: en az 960×540, uygun en-boy oranı, yeterli kontrast ve detay. Dikey afiş kesilerek yatay kapak yapılmaz. Yüksek çözünürlük ayrıca puan kazandırır.
+- Önceki seçilen yapım hâlâ listedeyse daha güçlü aday en az 12 puan öne geçmedikçe korunur. Önceki günlük sıralama yöntemi kaldırılmıştır.
+- Otomatik ölçüler görselin anlamını, oyuncuyu veya üzerindeki yazıyı kusursuz anlayamaz. Kontrol sayfasında görsel inceleme yapılabilir. Sistem bir yüz tanıma ya da sanat yönetmenliği modeli değildir.
 
-İlk canlı katalog okuma ve GitHub Pages yayını 24 Ekim 2026'da başarılı oldu. [Canlı kapak](https://zevstr.github.io/nuvio-dinamik-kapaklar/). Nuvio cihazındaki görsel önbelleği ayrıca doğrulanmalıdır.
+## Kategoriler
 
-## Kurulum
+En Yeniler (7), IMDB Seçkileri (4), Hint Sineması (6), Ne İzlesem? (10), Keşfet (3), Film Serileri (20). Çok kaynaklı klasörlerin kendi kaynakları birleştirilir. En Yeniler için gerekirse en fazla dört katalog sayfası incelenir. Başka bir kategoriden dolgu fotoğrafı alınmaz.
 
-1. GitHub Pages ayarlarında kaynak **GitHub Actions** seçilir.
-2. **Settings → Secrets and variables → Actions → New repository secret** altında `XPERIENCE_MANIFEST_URL` eklenir. Değeri Xperience profilinin **Finalize → Manual setup → Install by URL** alanındaki HTTPS kurulum bağlantısıdır. Bağlantıyı kaynak koda, issue'lara veya README'ye yapıştırmayın.
-3. **Actions → Günlük kapakları yenile → Run workflow** çalıştırılır.
-4. Yayın başarılı olduğunda Pages sayfasındaki kapak bağlantısı Xperience klasörüne eklenir. Koleksiyon Ozan Nuvio profiline gönderilir.
+## Yayın
 
-**Özel bağlantının kapsamı:** Xperience kurulum bağlantısı API anahtarları, geçmiş satırları, scrobble ve varsa üye akışları için erişim içerebilir. Bu bağlantıyı GitHub Actions gizli ayarı olarak saklamak, bu depoda çalışan iş akışına erişim vermektir. Kod yalnızca katalog okur; yine de bağlantıyı eklemeden önce bu paylaşımın onaylanması gerekir. Mevcut bağlantı değişirse gizli ayar da güncellenmelidir.
+[Canlı kontrol sayfası](https://zevstr.github.io/nuvio-dinamik-kapaklar/). Sabit dosyalar `covers/<slug>.jpg`, yazısız arka planlar `covers/<slug>-hero.jpg` biçimindedir. Görselin içeriğine göre sürümlenmiş kopya da oluşturulur. `status.json` yalnızca güvenli görsel seçim özetini taşır. Kaynak hatasında yeni dağıtım yapılmaz; önceki başarılı Pages yayını korunur.
 
-## Davranış
+GitHub Pages yanıtlarında 10 dakikalık HTTP önbelleği gözlendi. Nuvio cihazı daha uzun önbellek kullanabilir; gerçek cihazdaki otomatik yenilenme ayrıca doğrulanmalıdır. GitHub günlük işleri geciktirebilir veya uzun süre etkinlik olmayan public depolarda durdurabilir.
 
-- Günlük plan: Türkiye saatiyle yaklaşık **06:17**. Elle de çalıştırılabilir. GitHub zamanlamayı geciktirebilir; etkin olmayan public depolarda zamanlanmış işler durdurulabilir.
-- Elle çalıştırmada `rotation_offset=1`, aynı gün içindeki önbellek denemesi için sıradaki güncel yapımın görselini seçer. Zamanlanmış çalışmalarda değer her zaman 0'dır; gerçek güncelleme tarihi değiştirilmez.
-- Listeler yeniden oluşturulmaz: `covers.json` içindeki yedi Xperience katalog yanıtı okunur. Dil, yıl, kalite ve dijital yayın filtrelerinin sorumluluğu Xperience profilindedir. Yeni Hint Filmleri · Tümü kataloğu ülke IN seçimiyle tüm Hint dillerini içermelidir.
-- En güncel ilk sekiz içeriğin içinden güne göre bir yapım seçilir. Görsel yoksa aynı güncel listedeki bir sonraki yapım denenir. Eski yıllardan dolgu yapılmaz.
-- Kaynak fotoğraf sadece kırpılır/ölçeklenir; renkler, oyuncular ve yüzler yeniden üretilmez.
-- Katalog gerçekten boşsa eski film göstermek yerine kalıcı tipografiyle bekleme kapağı yayınlanır. Bağlantı veya görsel üretimi hatalıysa yeni dağıtım yapılmaz; önceki başarılı Pages yayını kalır. Son güncelleme tarihi kontrol sayfasındadır.
-- Sabit görsel dosyaları `covers/<slug>.jpg`, yazısız hero dosyaları `covers/<slug>-hero.jpg` biçimindedir. Kontrol sayfası ayrıca içeriğe göre sürümlenmiş dosyayı kullanır. GitHub Pages yanıtlarında 10 dakikalık HTTP önbelleği gözlendi. Nuvio sabit URL'yi daha uzun önbelleğe alabilir; gerçek cihaz testi ayrıca gerekir.
-- Herkese açık çıktıda yalnızca kapak, hero, film adı/kimliği ve güncelleme özeti bulunur. Kurulum bağlantısı, API anahtarı ve profil yapılandırması yayınlanmaz. Hata çıktıları kaynak URL'lerini yazdırmaz.
+## Gizli ayar
 
-## Yerel geliştirme
+`XPERIENCE_MANIFEST_URL`, GitHub Actions Repository Secret olarak saklanır. Özel kurulum bağlantısı kodda, herkese açık çıktıda ve hata mesajlarında yayınlanmaz. Bu bağlantı API anahtarları, geçmiş/scrobble ve varsa üye akışlarına erişim içerebilir. Kullanıcı bu depoda gizli ayar olarak saklanmasını açıkça onaylamıştır. Kod yalnızca katalog okur.
 
-Node.js 24 ve sistemde DejaVu Sans fontu gerekir. `npm ci --ignore-scripts`, `npm test`, ardından yerel ortamda `XPERIENCE_MANIFEST_URL` ayarlanıp `npm run build` çalıştırılır. Gizli değeri terminal geçmişine yazmayın. `dist/` Pages dağıtımıdır; yalnızca başarılı üretim sonunda yenilenir.
+## Çalıştırma
 
-## Görsel kaynakları
+Node.js 24, DejaVu Sans fontu. `npm ci --ignore-scripts`, `npm test`, gizli ayar ortamda mevcutken `npm run build`. GitHub Pages kaynağı GitHub Actions'tır. Elle çalışma: Actions → Günlük kapakları yenile → Run workflow.
 
-Görseller ilgili yapımların hak sahiplerine aittir. Bu ürün TMDB API'sini kullanan Xperience kataloglarından yararlanır; TMDB tarafından onaylanmış veya sertifikalandırılmış değildir. [TMDB](https://www.themoviedb.org/)
-
-Bu sistem yayın bağlantısı veya izlenebilirlik doğrulamaz; Xperience'ın dijital yayın filtresi gerçek oynatma bağlantısını garanti etmez.
+Görseller ilgili yapımların hak sahiplerine aittir. Xperience katalogları TMDB verilerinden yararlanır; bu ürün TMDB tarafından onaylanmış veya sertifikalandırılmış değildir. [TMDB](https://www.themoviedb.org/). Bu sistem oynatma bağlantısı veya izlenebilirlik doğrulamaz.

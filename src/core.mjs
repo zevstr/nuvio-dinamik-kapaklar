@@ -53,13 +53,75 @@ export function normalizeCatalog(payload) {
   });
 }
 
-export function orderedCandidates(metas, date, poolSize = 8) {
-  const pool = metas.slice(0, Math.max(1, Math.min(20, poolSize)));
-  if (!pool.length) return [];
-  const day = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86400000);
-  if (!Number.isFinite(day)) throw new CoverError('Tarih geçersiz.');
-  const offset = ((day % pool.length) + pool.length) % pool.length;
-  return [...pool.slice(offset), ...pool.slice(0, offset)];
+function number(value) {
+  const n = parseFloat(String(value ?? '').replace(',', '.'));
+  return Number.isFinite(n) ? n : 0;
+}
+
+export function titleScore(meta, spec, date) {
+  const rating = number(meta.imdbRating ?? meta.vote_average ?? meta.rating);
+  const votes = number(meta.vote_count ?? meta.voteCount ?? meta.imdbVotes ?? meta.votes);
+  const popularity = number(meta.popularity);
+  // Rank is a modest fallback when the catalog doesn't expose votes/popularity.
+  let score = 22 - Math.min(20, number(meta._sourceRank) * 0.4);
+  score += Math.min(10, rating) * 4;
+  score += Math.min(22, Math.log10(votes + 1) * 4);
+  score += Math.min(18, Math.log10(popularity + 1) * 7);
+  if (/^tt\d+$/.test(meta.id)) score += 5;
+  const runtime = number(meta.runtime);
+  if (meta.type === 'movie' && runtime > 0 && runtime < 45) score -= 30;
+  if (spec.policy === 'latest') {
+    const raw = meta.released ?? meta.releaseDate ?? meta.release_date ?? meta.releaseInfo;
+    const match = String(raw ?? '').match(/\d{4}-\d{2}-\d{2}/);
+    if (match) {
+      const age = (Date.parse(date) - Date.parse(match[0])) / 86400000;
+      score += Math.max(0, 24 - Math.max(0, age) / 12);
+      if (age < -1) score -= 60;
+    }
+    const genres = (Array.isArray(meta.genres) ? meta.genres : []).join(' ').toLowerCase();
+    if (/talk|news|reality|haber|söyleşi/.test(genres)) score -= 24;
+    if(meta.type==='series' && /animation|animasyon/.test(genres))score-=14;
+  }
+  return score;
+}
+
+export function rankedCandidates(metas, spec, date, previous = null) {
+  const ranked = metas.map(m => ({meta:m,score:titleScore(m,spec,date)}))
+    .sort((a,b)=>b.score-a.score || a.meta.id.localeCompare(b.meta.id));
+  const candidates = ranked.slice(0,12);
+  const old = ranked.find(x=>x.meta.id===previous?.contentId);
+  if (old && !candidates.some(x=>x.meta.id===old.meta.id)) candidates.push(old);
+  return candidates;
+}
+
+export async function pictureScore(bytes) {
+  const info = await sharp(bytes,{limitInputPixels:40_000_000}).metadata();
+  const ratio = info.width / info.height;
+  // A portrait poster cropped into a wide tile is deliberately not a candidate.
+  if (!['jpeg','png','webp','avif'].includes(info.format) || info.width<960 || info.height<540 || ratio<1.45 || ratio>2.5) return null;
+  const {data,info:raw} = await sharp(bytes).resize(160,90,{fit:'fill'}).greyscale().raw().toBuffer({resolveWithObject:true});
+  let sum=0,sum2=0,edge=0,edges=0,dark=0,bright=0;
+  for(let y=0;y<raw.height;y++) for(let x=0;x<raw.width;x++) {
+    const i=y*raw.width+x,v=data[i];sum+=v;sum2+=v*v;
+    if(v<12)dark++;if(v>245)bright++;
+    if(x){edge+=Math.abs(v-data[i-1]);edges++;}
+    if(y){edge+=Math.abs(v-data[i-raw.width]);edges++;}
+  }
+  const mean=sum/data.length,contrast=Math.sqrt(sum2/data.length-mean*mean),detail=edge/edges;
+  if(contrast<12 || detail<1.5 || dark/data.length>.78 || bright/data.length>.78) return null;
+  let score=20 + Math.min(18,Math.log2(info.width/960+1)*9);
+  score+=Math.max(0,15-Math.abs(ratio-16/9)*25);
+  score+=Math.min(10,detail*.7) + Math.min(8,contrast/8);
+  return {score,width:info.width,height:info.height};
+}
+
+export function selectWinner(candidates, previous = null) {
+  const sorted=[...candidates].sort((a,b)=>b.score-a.score || a.meta.id.localeCompare(b.meta.id));
+  if(!sorted.length)throw new CoverError('Bu klasör için uygun yatay görsel bulunamadı.');
+  const old=previous?.selectionPolicy===2 ? sorted.find(c=>c.meta.id===previous.contentId) : null;
+  // Keep a strong current title until a clearly better candidate appears.
+  if(old && sorted[0].score < old.score+12)return old;
+  return sorted[0];
 }
 
 export function xml(value) {
@@ -76,9 +138,9 @@ export function overlay(spec, name, empty = false) {
     <rect width="1600" height="900" fill="url(#side)"/>
     <rect y="300" width="1600" height="600" fill="url(#bottom)"/>
     <rect x="82" y="75" width="8" height="33" rx="4" fill="#e8c58f"/>
-    <text x="111" y="101" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="600" letter-spacing="3" fill="#fff7ea">EN YENİLER</text>
+    <text x="111" y="101" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="600" letter-spacing="3" fill="#fff7ea">${xml((spec.section || 'En Yeniler').toLocaleUpperCase('tr-TR').replace('İMDB','IMDB'))}</text>
     <g font-family="DejaVu Sans,sans-serif" font-weight="bold" fill="#fff7ea" letter-spacing="-5">
-      ${lines.map((line, i) => `<text x="76" y="${634+i*117}" font-size="116">${xml(line)}</text>`).join('')}
+      ${lines.map((line, i) => `<text x="76" y="${lines.length===1?751:634+i*117}" font-size="${Math.min(116,Math.floor(1380/(line.length*.75)))}">${xml(line)}</text>`).join('')}
     </g>
     <rect x="82" y="793" width="55" height="3" fill="#e8c58f"/>
     <text x="158" y="805" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="500" letter-spacing="2" fill="#e4e0d7">${xml(empty ? 'YENİ İÇERİKLER BEKLENİYOR' : spec.subtitle)}</text>
@@ -93,20 +155,29 @@ export async function renderCover(bytes, spec, name, empty = false) {
   return {cover, hero};
 }
 
-export async function choosePhoto(metas, spec, date, fetcher = fetch) {
-  for (const meta of orderedCandidates(metas, date, spec.rotationPool)) {
-    for (const field of ['background', 'backdrop', 'poster']) {
-      const url = imageUrl(meta[field]);
-      if (!url) continue;
-      try {
-        const bytes = await download(url, 12_000_000, fetcher);
-        const info = await sharp(bytes, {limitInputPixels:40_000_000}).metadata();
-        if (!['jpeg','png','webp','avif'].includes(info.format) || info.width < 640 || info.height < 360) continue;
-        return {meta, bytes, imageKind:field};
-      } catch {
-        // A broken artwork must not prevent trying another title in the same current catalog.
+const imageCache=new Map();
+export async function choosePhoto(metas, spec, date, fetcher = fetch, previous = null) {
+  const ranked=rankedCandidates(metas,spec,date,previous), candidates=[];
+  for(let start=0;start<ranked.length;start+=4) {
+    await Promise.all(ranked.slice(start,start+4).map(async ({meta,score})=>{
+      const fields=['background','backdrop'];
+      if(meta.posterShape==='landscape')fields.push('poster');
+      for(const field of fields) {
+        const url=imageUrl(meta[field]);if(!url)continue;
+        try {
+          const key=url.href;
+          if(!imageCache.has(key)) imageCache.set(key,(async()=>{
+            const bytes=await download(url,12_000_000,fetcher);
+            const quality=await pictureScore(bytes);
+            return quality ? {bytes,...quality} : null;
+          })().catch(()=>null));
+          const picture=await imageCache.get(key);
+          if(!picture)continue;
+          candidates.push({meta,bytes:picture.bytes,imageKind:field,score:score+picture.score,imageWidth:picture.width,imageHeight:picture.height});
+          break;
+        } catch { /* Try the next safe image field. */ }
       }
-    }
+    }));
   }
-  throw new CoverError('Güncel listedeki içerikler için uygun gerçek görsel bulunamadı; önceki yayın korunacak.');
+  return selectWinner(candidates,previous);
 }
