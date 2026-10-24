@@ -63,7 +63,7 @@ export function titleScore(meta, spec, date) {
   const votes = number(meta.vote_count ?? meta.voteCount ?? meta.imdbVotes ?? meta.votes);
   const popularity = number(meta.popularity);
   // Rank is a modest fallback when the catalog doesn't expose votes/popularity.
-  let score = 22 - Math.min(20, number(meta._sourceRank) * 0.4);
+  let score = 22 - Math.min(8, number(meta._sourceRank) * 0.16);
   score += Math.min(10, rating) * 4;
   score += Math.min(22, Math.log10(votes + 1) * 4);
   score += Math.min(18, Math.log10(popularity + 1) * 7);

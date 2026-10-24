@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
-import {catalogUrl, imageUrl, normalizeCatalog, rankedCandidates, selectWinner, pictureScore, xml, renderCover, download} from '../src/core.mjs';
+import {catalogUrl, imageUrl, normalizeCatalog, titleScore, rankedCandidates, selectWinner, pictureScore, xml, renderCover, download} from '../src/core.mjs';
 
 test('catalog URL keeps private base/query but never changes origin',()=>{
   const u=catalogUrl('https://xperience-app.com/private-example/manifest.json?key=example', {catalogType:'movie',catalogId:'world_hi_latest_movies'});
@@ -39,6 +39,11 @@ test('general category photography favors live-action without removing animation
   const ranked=rankedCandidates(metas,{policy:'evergreen'},'2026-10-24');
   assert.equal(ranked[0].meta.id,'film');
   assert.equal(ranked.length,2);
+});
+test('daily source shuffling alone cannot cross the replacement threshold',()=>{
+  const meta={id:'tt100',name:'Stable',imdbRating:8.5};
+  const delta=titleScore({...meta,_sourceRank:0},{policy:'evergreen'},'2026-10-24')-titleScore({...meta,_sourceRank:100},{policy:'evergreen'},'2026-10-24');
+  assert.ok(delta<12);
 });
 test('portrait and featureless images cannot win a landscape cover',async()=>{
   const portrait=await sharp({create:{width:1200,height:1800,channels:3,background:'#abcdef'}}).jpeg().toBuffer();

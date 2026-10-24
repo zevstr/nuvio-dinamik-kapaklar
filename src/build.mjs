@@ -12,10 +12,11 @@ const PUBLIC_BASE='https://zevstr.github.io/nuvio-dinamik-kapaklar/';
 const catalogCache=new Map();
 
 async function readSource(manifest,source,latest) {
-  const key=`${source.catalogType}:${source.catalogId}:${latest}`;
+  const pages=/imdb_top250/.test(source.catalogId)?5:(/imdb_top100/.test(source.catalogId)?2:(latest?4:1));
+  const key=`${source.catalogType}:${source.catalogId}:${pages}`;
   if(!catalogCache.has(key))catalogCache.set(key,(async()=>{
     const all=[],seen=new Set();
-    for(let page=0;page<(latest?4:1);page++) {
+    for(let page=0;page<pages;page++) {
       const url=catalogUrl(manifest,source);
       if(page)url.pathname=url.pathname.replace(/\.json$/,`/skip=${all.length}.json`);
       let payload;
