@@ -34,6 +34,12 @@ test('a small score change preserves a good existing image; a clear improvement 
   assert.equal(selectWinner([old,better],previous).meta.id,'new');
   assert.equal(selectWinner([better],previous).meta.id,'new');
 });
+test('general category photography favors live-action without removing animation from the catalog',()=>{
+  const metas=[{id:'cartoon',name:'Animation',imdbRating:9.5,genres:['Animation'],_sourceRank:0},{id:'film',name:'Live action',imdbRating:8.5,genres:['Action'],_sourceRank:3}];
+  const ranked=rankedCandidates(metas,{policy:'evergreen'},'2026-10-24');
+  assert.equal(ranked[0].meta.id,'film');
+  assert.equal(ranked.length,2);
+});
 test('portrait and featureless images cannot win a landscape cover',async()=>{
   const portrait=await sharp({create:{width:1200,height:1800,channels:3,background:'#abcdef'}}).jpeg().toBuffer();
   const blank=await sharp({create:{width:1920,height:1080,channels:3,background:'#112233'}}).jpeg().toBuffer();

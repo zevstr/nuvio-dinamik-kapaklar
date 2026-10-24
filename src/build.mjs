@@ -21,7 +21,12 @@ async function readSource(manifest,source,latest) {
       let payload;
       try {payload=JSON.parse((await download(url,5_000_000)).toString());}
       catch(error) {if(page)break;throw new CoverError('Katalog okunamadı.');}
-      const items=normalizeCatalog(payload);
+      let items=normalizeCatalog(payload);
+      // A first request can start the upstream catalog's background refresh.
+      for(let retry=0;page===0&&!items.length&&retry<2;retry++){
+        await new Promise(resolve=>setTimeout(resolve,3000));
+        try{items=normalizeCatalog(JSON.parse((await download(url,5_000_000)).toString()));}catch{break;}
+      }
       const fresh=items.filter(m=>!seen.has(m.id));
       for(const m of fresh){seen.add(m.id);all.push({...m,_sourceRank:all.length});}
       if(!fresh.length || items.length<20)break;

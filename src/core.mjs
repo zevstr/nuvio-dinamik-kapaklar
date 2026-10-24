@@ -68,6 +68,9 @@ export function titleScore(meta, spec, date) {
   score += Math.min(22, Math.log10(votes + 1) * 4);
   score += Math.min(18, Math.log10(popularity + 1) * 7);
   if (/^tt\d+$/.test(meta.id)) score += 5;
+  const genres = (Array.isArray(meta.genres) ? meta.genres : []).join(' ').toLowerCase();
+  // Cover photography favors live-action; animated titles remain in the catalog.
+  if(/animation|animasyon/.test(genres))score-=35;
   const runtime = number(meta.runtime);
   if (meta.type === 'movie' && runtime > 0 && runtime < 45) score -= 30;
   if (spec.policy === 'latest') {
@@ -78,9 +81,7 @@ export function titleScore(meta, spec, date) {
       score += Math.max(0, 24 - Math.max(0, age) / 12);
       if (age < -1) score -= 60;
     }
-    const genres = (Array.isArray(meta.genres) ? meta.genres : []).join(' ').toLowerCase();
     if (/talk|news|reality|haber|söyleşi/.test(genres)) score -= 24;
-    if(meta.type==='series' && /animation|animasyon/.test(genres))score-=14;
   }
   return score;
 }
