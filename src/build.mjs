@@ -58,6 +58,7 @@ try {
       }
     }
     if(!sourceSuccess)throw new CoverError(`${spec.slug}: hiçbir katalog kaynağı okunamadı; mevcut yayın korunuyor.`);
+    console.log(`${spec.slug}: ${metas.length} aday, ${sourceSuccess} katalog kaynağı.`);
     const old=previous.find(p=>p.slug===spec.slug);
     const selected = metas.length ? await choosePhoto(metas,spec,today,fetch,old) : null;
     const {cover, hero} = await renderCover(selected?.bytes,spec,selected?.meta.name,!selected);
@@ -65,7 +66,7 @@ try {
     await writeFile(`${staging}/covers/${spec.slug}.jpg`,cover);
     await writeFile(`${staging}/covers/${spec.slug}-hero.jpg`,hero);
     await writeFile(`${staging}/covers/${spec.slug}-${hash}.jpg`,cover);
-    entries.push({slug:spec.slug,title:spec.heading.join(' '),section:spec.section,updated:today,selectedAt:old?.contentId===selected?.meta.id ? old.selectedAt||today : today,contentId:selected?.meta.id??null,contentName:selected?.meta.name??null,empty:!selected,sha256:hash,imageKind:selected?.imageKind??null,selectionPolicy:2,selectionScore:selected?Math.round(selected.score*10)/10:null,imageWidth:selected?.imageWidth??null,imageHeight:selected?.imageHeight??null,candidateCount:metas.length});
+    entries.push({slug:spec.slug,title:spec.heading.join(' '),section:spec.section,updated:today,selectedAt:old&&selected&&old.contentId===selected.meta.id ? old.selectedAt||today : today,contentId:selected?.meta.id??null,contentName:selected?.meta.name??null,empty:!selected,sha256:hash,imageKind:selected?.imageKind??null,selectionPolicy:2,selectionScore:selected?Math.round(selected.score*10)/10:null,imageWidth:selected?.imageWidth??null,imageHeight:selected?.imageHeight??null,candidateCount:metas.length});
     console.log(`${spec.slug}: ${selected ? 'güncel katalogdan gerçek görsel hazır' : 'boş katalog için bekleme kapağı hazır'}.`);
   }
   await writeFile(`${staging}/status.json`,JSON.stringify({updated:today,selectionPolicy:2,covers:entries},null,2));
@@ -77,6 +78,7 @@ try {
 } catch (error) {
   // Never log external error messages: libraries can include credential-bearing URLs.
   console.error(error instanceof CoverError ? error.message : 'Kapak üretilemedi. Önceki yayın korunuyor.');
+  if(!(error instanceof CoverError))console.error(String(error.stack??'').match(/src\/\w+\.mjs:\d+:\d+/g)?.join(' ')??'Yerel üretim hatası.');
   await rm(staging,{recursive:true,force:true});
   process.exitCode=1;
 }

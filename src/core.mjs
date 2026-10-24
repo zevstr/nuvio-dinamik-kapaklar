@@ -99,7 +99,7 @@ export async function pictureScore(bytes) {
   const ratio = info.width / info.height;
   // A portrait poster cropped into a wide tile is deliberately not a candidate.
   if (!['jpeg','png','webp','avif'].includes(info.format) || info.width<960 || info.height<540 || ratio<1.45 || ratio>2.5) return null;
-  const {data,info:raw} = await sharp(bytes).resize(160,90,{fit:'fill'}).greyscale().raw().toBuffer({resolveWithObject:true});
+  const {data,info:raw} = await sharp(bytes).resize(160,90,{fit:'fill'}).removeAlpha().greyscale().raw().toBuffer({resolveWithObject:true});
   let sum=0,sum2=0,edge=0,edges=0,dark=0,bright=0;
   for(let y=0;y<raw.height;y++) for(let x=0;x<raw.width;x++) {
     const i=y*raw.width+x,v=data[i];sum+=v;sum2+=v*v;
