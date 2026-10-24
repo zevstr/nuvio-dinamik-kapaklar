@@ -1,6 +1,8 @@
 # Ozan · Nuvio Dinamik Kapaklar
 
-Xperience'taki **Yeni Hint Filmleri · Tümü** kataloğunun güncel içeriklerinden gerçek görsel seçer. Fotoğrafın üzerine sabit Türkçe tipografi yerleştirir. İnsan yüzleri veya sahneler yapay zekâ ile yeniden üretilmez.
+Xperience'taki **En Yeniler** koleksiyonunun yedi klasörü için kendi güncel kataloğundan gerçek görsel seçer. Fotoğrafın üzerine sabit Türkçe tipografi yerleştirir. İnsan yüzleri veya sahneler yapay zekâ ile yeniden üretilmez.
+
+Kapsam: Yerli Diziler · Yeni Bölüm, Yeni Filmler · Dijitalde, Yeni Diziler, Yabancı Diziler · Yeni Bölüm, Yeni Türk Filmleri, Yeni Hint Filmleri · Tümü ve Yeni Hint · Kaliteli. Her kapak kendi katalog kimliğini kullanır; kaliteli Hint listesi diğer Hint listesinin kopyası değildir.
 
 ## Durum
 
@@ -19,11 +21,11 @@ Xperience'taki **Yeni Hint Filmleri · Tümü** kataloğunun güncel içerikleri
 
 - Günlük plan: Türkiye saatiyle yaklaşık **06:17**. Elle de çalıştırılabilir. GitHub zamanlamayı geciktirebilir; etkin olmayan public depolarda zamanlanmış işler durdurulabilir.
 - Elle çalıştırmada `rotation_offset=1`, aynı gün içindeki önbellek denemesi için sıradaki güncel yapımın görselini seçer. Zamanlanmış çalışmalarda değer her zaman 0'dır; gerçek güncelleme tarihi değiştirilmez.
-- Liste yeniden oluşturulmaz: Xperience'ın kendi `world_hi_latest_movies` katalog yanıtı okunur. Dil, yıl ve dijital yayın filtrelerinin sorumluluğu Xperience profilindedir. Bu katalog ülke IN seçimiyle tüm Hint dillerini içermelidir.
+- Listeler yeniden oluşturulmaz: `covers.json` içindeki yedi Xperience katalog yanıtı okunur. Dil, yıl, kalite ve dijital yayın filtrelerinin sorumluluğu Xperience profilindedir. Yeni Hint Filmleri · Tümü kataloğu ülke IN seçimiyle tüm Hint dillerini içermelidir.
 - En güncel ilk sekiz içeriğin içinden güne göre bir yapım seçilir. Görsel yoksa aynı güncel listedeki bir sonraki yapım denenir. Eski yıllardan dolgu yapılmaz.
 - Kaynak fotoğraf sadece kırpılır/ölçeklenir; renkler, oyuncular ve yüzler yeniden üretilmez.
 - Katalog gerçekten boşsa eski film göstermek yerine kalıcı tipografiyle bekleme kapağı yayınlanır. Bağlantı veya görsel üretimi hatalıysa yeni dağıtım yapılmaz; önceki başarılı Pages yayını kalır. Son güncelleme tarihi kontrol sayfasındadır.
-- Sabit görsel dosyası: `covers/yeni-hint-filmleri.jpg`; yazısız hero: `covers/yeni-hint-filmleri-hero.jpg`. Kontrol sayfası ayrıca içeriğe göre sürümlenmiş dosyayı kullanır. Nuvio sabit URL'yi önbelleğe alabilir; gerçek cihaz testi ayrıca gerekir.
+- Sabit görsel dosyaları `covers/<slug>.jpg`, yazısız hero dosyaları `covers/<slug>-hero.jpg` biçimindedir. Kontrol sayfası ayrıca içeriğe göre sürümlenmiş dosyayı kullanır. GitHub Pages yanıtlarında 10 dakikalık HTTP önbelleği gözlendi. Nuvio sabit URL'yi daha uzun önbelleğe alabilir; gerçek cihaz testi ayrıca gerekir.
 - Herkese açık çıktıda yalnızca kapak, hero, film adı/kimliği ve güncelleme özeti bulunur. Kurulum bağlantısı, API anahtarı ve profil yapılandırması yayınlanmaz. Hata çıktıları kaynak URL'lerini yazdırmaz.
 
 ## Yerel geliştirme

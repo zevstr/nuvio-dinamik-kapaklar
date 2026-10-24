@@ -1,10 +1,58 @@
 [
   {
+    "slug": "yerli-diziler-yeni-bolum",
+    "catalogType": "series",
+    "catalogId": "airing_today_series~c2",
+    "heading": ["YERLİ", "DİZİLER"],
+    "subtitle": "YENİ BÖLÜM · TÜRKİYE",
+    "rotationPool": 8
+  },
+  {
+    "slug": "yeni-filmler-dijitalde",
+    "catalogType": "movie",
+    "catalogId": "new_latest_digital_movies",
+    "heading": ["YENİ FİLMLER", "DİJİTALDE"],
+    "subtitle": "DİJİTALDE YENİ YAYINLAR",
+    "rotationPool": 8
+  },
+  {
+    "slug": "yeni-diziler",
+    "catalogType": "series",
+    "catalogId": "tmdb_new_releases_series",
+    "heading": ["YENİ", "DİZİLER"],
+    "subtitle": "YENİ HİKÂYELER · YENİ SEZONLAR",
+    "rotationPool": 8
+  },
+  {
+    "slug": "yabanci-diziler-yeni-bolum",
+    "catalogType": "series",
+    "catalogId": "airing_today_series",
+    "heading": ["YABANCI", "DİZİLER"],
+    "subtitle": "YENİ BÖLÜM · DÜNYADAN",
+    "rotationPool": 8
+  },
+  {
+    "slug": "yeni-turk-filmleri",
+    "catalogType": "movie",
+    "catalogId": "world_tr_latest_movies",
+    "heading": ["YENİ TÜRK", "FİLMLERİ"],
+    "subtitle": "TÜRK SİNEMASINDA YENİ YAYINLAR",
+    "rotationPool": 8
+  },
+  {
     "slug": "yeni-hint-filmleri",
     "catalogType": "movie",
     "catalogId": "world_hi_latest_movies",
     "heading": ["YENİ HİNT", "FİLMLERİ"],
     "subtitle": "TÜM DİLLER · GÜNCEL SEÇKİ",
+    "rotationPool": 8
+  },
+  {
+    "slug": "yeni-kaliteli-hint-filmleri",
+    "catalogType": "movie",
+    "catalogId": "world_hi_latest_movies~c2",
+    "heading": ["YENİ HİNT", "SEÇKİSİ"],
+    "subtitle": "KALİTELİ FİLMLER · 6.5+ PUAN",
     "rotationPool": 8
   }
 ]
