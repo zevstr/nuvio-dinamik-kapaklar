@@ -341,7 +341,12 @@
         "catalogId": "genre_action_toprated_series"
       }
     ],
-    "policy": "evergreen"
+    "policy": "evergreen",
+    "preferredType": "movie",
+    "genreTerms": [
+      "action",
+      "aksiyon"
+    ]
   },
   {
     "slug": "komedi",
@@ -377,7 +382,12 @@
         "catalogId": "genre_comedy_toprated_series"
       }
     ],
-    "policy": "evergreen"
+    "policy": "evergreen",
+    "preferredType": "movie",
+    "genreTerms": [
+      "comedy",
+      "komedi"
+    ]
   },
   {
     "slug": "bilim-kurgu",
@@ -414,7 +424,15 @@
         "catalogId": "genre_scifi_toprated_series"
       }
     ],
-    "policy": "evergreen"
+    "policy": "evergreen",
+    "preferredType": "movie",
+    "genreTerms": [
+      "science fiction",
+      "sciencefiction",
+      "sci-fi",
+      "sci fi",
+      "bilim kurgu"
+    ]
   },
   {
     "slug": "gerilim",
@@ -446,7 +464,13 @@
         "catalogId": "genre_thriller_toprated_movies"
       }
     ],
-    "policy": "evergreen"
+    "policy": "evergreen",
+    "preferredType": "movie",
+    "genreTerms": [
+      "thriller",
+      "gerilim",
+      "suspense"
+    ]
   },
   {
     "slug": "romantik-komedi",
@@ -475,7 +499,13 @@
         "catalogId": "genre_romantic_comedy_toprated_movies"
       }
     ],
-    "policy": "evergreen"
+    "policy": "evergreen",
+    "preferredType": "movie",
+    "genreTerms": [
+      "romance",
+      "romantik",
+      "romantic"
+    ]
   },
   {
     "slug": "90-dakikadan-kisa",

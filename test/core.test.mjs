@@ -29,7 +29,7 @@ test('recognizable well-supported titles beat obscure short films without filter
 });
 test('a small score change preserves a good existing image; a clear improvement replaces it',()=>{
   const old={meta:{id:'old'},score:100},near={meta:{id:'new'},score:108},better={meta:{id:'new'},score:120};
-  const previous={contentId:'old',selectionPolicy:2};
+  const previous={contentId:'old',selectionPolicy:3};
   assert.equal(selectWinner([old,near],previous).meta.id,'old');
   assert.equal(selectWinner([old,better],previous).meta.id,'new');
   assert.equal(selectWinner([better],previous).meta.id,'new');
@@ -44,6 +44,12 @@ test('daily source shuffling alone cannot cross the replacement threshold',()=>{
   const meta={id:'tt100',name:'Stable',imdbRating:8.5};
   const delta=titleScore({...meta,_sourceRank:0},{policy:'evergreen'},'2026-10-24')-titleScore({...meta,_sourceRank:100},{policy:'evergreen'},'2026-10-24');
   assert.ok(delta<12);
+});
+test('genre cover selection rewards the actual genre and a film while keeping all series in the list',()=>{
+  const spec={policy:'evergreen',preferredType:'movie',genreTerms:['action']};
+  const items=[{id:'drama',name:'Drama',type:'series',imdbRating:9.5,genres:['Drama']},{id:'action',name:'Action',type:'movie',imdbRating:8,genres:['Action']}];
+  const ranked=rankedCandidates(items,spec,'2026-10-24');
+  assert.equal(ranked[0].meta.id,'action');assert.equal(ranked.length,2);
 });
 test('portrait and featureless images cannot win a landscape cover',async()=>{
   const portrait=await sharp({create:{width:1200,height:1800,channels:3,background:'#abcdef'}}).jpeg().toBuffer();

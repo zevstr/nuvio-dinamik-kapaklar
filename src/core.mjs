@@ -69,6 +69,8 @@ export function titleScore(meta, spec, date) {
   score += Math.min(18, Math.log10(popularity + 1) * 7);
   if (/^tt\d+$/.test(meta.id)) score += 5;
   const genres = (Array.isArray(meta.genres) ? meta.genres : []).join(' ').toLowerCase();
+  if(spec.preferredType===meta.type)score+=18;
+  if(spec.genreTerms?.length&&genres)score+=spec.genreTerms.some(term=>genres.includes(term))?12:-24;
   // Cover photography favors live-action; animated titles remain in the catalog.
   if(/animation|animasyon/.test(genres))score-=35;
   const runtime = number(meta.runtime);
@@ -119,7 +121,7 @@ export async function pictureScore(bytes) {
 export function selectWinner(candidates, previous = null) {
   const sorted=[...candidates].sort((a,b)=>b.score-a.score || a.meta.id.localeCompare(b.meta.id));
   if(!sorted.length)throw new CoverError('Bu klasör için uygun yatay görsel bulunamadı.');
-  const old=previous?.selectionPolicy===2 ? sorted.find(c=>c.meta.id===previous.contentId) : null;
+  const old=previous?.selectionPolicy===3 ? sorted.find(c=>c.meta.id===previous.contentId) : null;
   // Keep a strong current title until a clearly better candidate appears.
   if(old && sorted[0].score < old.score+12)return old;
   return sorted[0];
