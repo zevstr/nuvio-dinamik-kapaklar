@@ -5,9 +5,9 @@
       "YERLİ",
       "DİZİLER"
     ],
-    "subtitle": "YENİ BÖLÜM · TÜRKİYE",
+    "subtitle": "BUGÜN BÖLÜMÜ YAYINLANAN · TÜRKİYE",
     "section": "En Yeniler",
-    "folderTitle": "Yerli Diziler • Yeni Bölüm",
+    "folderTitle": "Bugün Bölümü Yayınlanan • Yerli",
     "sources": [
       {
         "catalogType": "series",
@@ -39,9 +39,9 @@
       "YENİ",
       "DİZİLER"
     ],
-    "subtitle": "YENİ HİKÂYELER · YENİ SEZONLAR",
+    "subtitle": "YENİ BAŞLAYAN HİKÂYELER",
     "section": "En Yeniler",
-    "folderTitle": "Yeni Diziler • 2026",
+    "folderTitle": "Yeni Başlayan Diziler",
     "sources": [
       {
         "catalogType": "series",
@@ -56,9 +56,9 @@
       "YABANCI",
       "DİZİLER"
     ],
-    "subtitle": "YENİ BÖLÜM · DÜNYADAN",
+    "subtitle": "BUGÜN BÖLÜMÜ YAYINLANAN · DÜNYADAN",
     "section": "En Yeniler",
-    "folderTitle": "Yabancı Diziler • Yeni Bölüm",
+    "folderTitle": "Bugün Bölümü Yayınlanan • Yabancı",
     "sources": [
       {
         "catalogType": "series",
@@ -107,9 +107,9 @@
       "YENİ HİNT",
       "SEÇKİSİ"
     ],
-    "subtitle": "KALİTELİ FİLMLER · 6.5+ PUAN",
+    "subtitle": "2026 YAPIMLARI · IMDB 6,5+ · 100+ OY",
     "section": "En Yeniler",
-    "folderTitle": "Yeni Hint • Kaliteli",
+    "folderTitle": "2026 • Kaliteli Hint Filmleri",
     "sources": [
       {
         "catalogType": "movie",
@@ -199,6 +199,14 @@
       {
         "catalogType": "movie",
         "catalogId": "world_hi_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_toprated_movies~c2"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_toprated_movies~c3"
       }
     ],
     "policy": "evergreen"
@@ -215,6 +223,10 @@
       {
         "catalogType": "movie",
         "catalogId": "genre_bollywood_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_bollywood_toprated_movies~c2"
       },
       {
         "catalogType": "movie",
@@ -239,6 +251,10 @@
       },
       {
         "catalogType": "movie",
+        "catalogId": "world_ta_toprated_movies~c2"
+      },
+      {
+        "catalogType": "movie",
         "catalogId": "world_ta_latest_movies"
       }
     ],
@@ -257,6 +273,10 @@
       {
         "catalogType": "movie",
         "catalogId": "world_te_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_te_toprated_movies~c2"
       },
       {
         "catalogType": "movie",
@@ -281,6 +301,10 @@
       },
       {
         "catalogType": "movie",
+        "catalogId": "world_ml_toprated_movies~c2"
+      },
+      {
+        "catalogType": "movie",
         "catalogId": "world_ml_latest_movies"
       }
     ],
@@ -299,6 +323,10 @@
       {
         "catalogType": "movie",
         "catalogId": "world_kn_toprated_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "world_kn_toprated_movies~c2"
       },
       {
         "catalogType": "movie",
@@ -728,9 +756,9 @@
       "MARVEL",
       "EVRENİ"
     ],
-    "subtitle": "BİRBİRİNE BAĞLANAN HİKÂYELER",
+    "subtitle": "MCU VE MARVEL FİLMLERİ · ÇIKIŞ SIRASI",
     "section": "Film Serileri",
-    "folderTitle": "Marvel Cinematic Universe",
+    "folderTitle": "Marvel Evreni",
     "sources": [
       {
         "catalogType": "movie",
@@ -1069,5 +1097,190 @@
       }
     ],
     "policy": "evergreen"
+  },
+  {
+    "slug": "populer-hint-filmleri",
+    "heading": [
+      "POPÜLER HİNT",
+      "FİLMLERİ"
+    ],
+    "subtitle": "HİNDİSTAN · TÜM DİLLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Popüler Hint Filmleri",
+    "policy": "popular",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "world_hi_popular_movies"
+      }
+    ]
+  },
+  {
+    "slug": "hint-yildizlari",
+    "heading": [
+      "HİNT",
+      "YILDIZLARI"
+    ],
+    "subtitle": "BEŞ YILDIZ · UNUTULMAZ FİLMLER",
+    "section": "Hint Sineması",
+    "folderTitle": "Hint Yıldızları",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "tmdb_actor_35742_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "tmdb_actor_52763_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "tmdb_actor_42802_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "tmdb_actor_108215_movies"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "tmdb_actor_237045_movies"
+      }
+    ]
+  },
+  {
+    "slug": "son-yillarin-en-iyileri",
+    "heading": [
+      "YAKIN DÖNEM",
+      "EN İYİLER"
+    ],
+    "subtitle": "IMDB 250 · 2021–2026 SEÇKİSİ",
+    "section": "IMDB Seçkileri",
+    "folderTitle": "Son Yılların En İyileri",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "awards_imdb_top250_movies~c2"
+      }
+    ]
+  },
+  {
+    "slug": "mini-diziler",
+    "heading": [
+      "MİNİ DİZİLER",
+      "VE ANTOLOJİLER"
+    ],
+    "subtitle": "KISA HİKÂYELER · GÜÇLÜ SEZONLAR",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Mini Diziler ve Antolojiler",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "series",
+        "catalogId": "genre_limited_series"
+      }
+    ]
+  },
+  {
+    "slug": "suc-ve-polisiye",
+    "heading": [
+      "SUÇ VE",
+      "POLİSİYE"
+    ],
+    "subtitle": "GİZLİ DOSYALAR · KARANLIK HİKÂYELER",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Suç ve Polisiye",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_crime_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_crime_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_crime_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_crime_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_crime_toprated_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_crime_toprated_series"
+      }
+    ],
+    "preferredType": "movie",
+    "genreTerms": [
+      "crime",
+      "suç",
+      "polisiye"
+    ]
+  },
+  {
+    "slug": "gizem",
+    "heading": [
+      "GİZEM"
+    ],
+    "subtitle": "HER İPUCU YENİ BİR HİKÂYE",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Gizem",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_mystery_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_mystery_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_mystery_latest_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_mystery_latest_series"
+      },
+      {
+        "catalogType": "movie",
+        "catalogId": "genre_mystery_toprated_movies"
+      },
+      {
+        "catalogType": "series",
+        "catalogId": "genre_mystery_toprated_series"
+      }
+    ],
+    "preferredType": "movie",
+    "genreTerms": [
+      "mystery",
+      "gizem"
+    ]
+  },
+  {
+    "slug": "bana-bir-film-oner",
+    "heading": [
+      "BANA BİR",
+      "FİLM ÖNER"
+    ],
+    "subtitle": "GÜNLÜK SEÇKİ · IMDB 7,5+ · 1000+ OY",
+    "section": "Ne İzlesem?",
+    "folderTitle": "Bana Bir Film Öner",
+    "policy": "evergreen",
+    "sources": [
+      {
+        "catalogType": "movie",
+        "catalogId": "top_rated_movies"
+      }
+    ]
   }
 ]
