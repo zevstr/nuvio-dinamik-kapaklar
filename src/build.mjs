@@ -2,6 +2,7 @@ import {readFile, writeFile, mkdir, rm, rename} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {catalogUrl, download, normalizeCatalog, choosePhoto, renderCover, CoverError, xml} from './core.mjs';
+import {buildWeeklyCatalogs,weeklyManifest} from './weekly.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const specs = JSON.parse(await readFile(`${root}covers.json`, 'utf8'));
@@ -62,12 +63,20 @@ try {
   // Avoid any raw URL, response body, profile config or key in logs/public output.
   await rm(staging, {recursive:true, force:true});
   await mkdir(`${staging}/covers`,{recursive:true});
+  const weekly=await buildWeeklyCatalogs(manifest,readSource);
+  await mkdir(`${staging}/catalog/series`,{recursive:true});
+  await writeFile(`${staging}/manifest.json`,JSON.stringify(weeklyManifest()));
+  await writeFile(`${staging}/catalog/series/weekly-local.json`,JSON.stringify({metas:weekly.local}));
+  await writeFile(`${staging}/catalog/series/weekly-foreign.json`,JSON.stringify({metas:weekly.foreign}));
+  await writeFile(`${staging}/weekly-status.json`,JSON.stringify({...weekly,local:weekly.local.length,foreign:weekly.foreign.length},null,2));
+  console.log(`Son 7 gün: ${weekly.inspected} dizi incelendi; ${weekly.local.length} yerli, ${weekly.foreign.length} yabancı; ${weekly.failed} yanıt alınamadı.`);
   const entries = [];
   for (const spec of specs) {
     if (!/^[a-z0-9-]+$/.test(spec.slug)) throw new CoverError('Kapak dosya adı geçersiz.');
     const seen=new Set(),metas=[];
     let sourceSuccess=0;
-    for(let start=0;start<spec.sources.length;start+=4) {
+    if(spec.weeklyRole){sourceSuccess=1;for(const m of weekly[spec.weeklyRole])metas.push({...m,released:m.lastEpisodeReleased});}
+    for(let start=0;!spec.weeklyRole&&start<spec.sources.length;start+=4) {
       const sourceResults=await Promise.allSettled(spec.sources.slice(start,start+4).map(s=>readSource(manifest,s,spec.policy==='latest')));
       for(const r of sourceResults)if(r.status==='fulfilled'){
         sourceSuccess++;

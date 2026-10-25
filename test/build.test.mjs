@@ -15,7 +15,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await mkdir(join(temp,'src'));
     await writeFile(join(temp,'package.json'),'{"type":"module"}');
     await symlink(join(root,'node_modules'),join(temp,'node_modules'));
-    for(const name of ['build.mjs','core.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
+    for(const name of ['build.mjs','core.mjs','weekly.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
     const pixels=Buffer.alloc(1280*720*3);
     for(let y=0;y<720;y++)for(let x=0;x<1280;x++){
       const v=((x>>4)+(y>>4))%2?200:30;

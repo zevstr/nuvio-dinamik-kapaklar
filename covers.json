@@ -5,16 +5,17 @@
       "YERLİ",
       "DİZİLER"
     ],
-    "subtitle": "BUGÜN BÖLÜMÜ YAYINLANAN · TÜRKİYE",
+    "subtitle": "SON 7 GÜNDE YAYINLANAN BÖLÜMLER",
     "section": "En Yeniler",
-    "folderTitle": "Bugün Bölümü Yayınlanan • Yerli",
+    "folderTitle": "Yerli Diziler • Yeni Bölümler",
     "sources": [
       {
         "catalogType": "series",
         "catalogId": "airing_today_series~c2"
       }
     ],
-    "policy": "latest"
+    "policy": "latest",
+    "weeklyRole": "local"
   },
   {
     "slug": "yeni-filmler-dijitalde",
@@ -56,16 +57,17 @@
       "YABANCI",
       "DİZİLER"
     ],
-    "subtitle": "BUGÜN BÖLÜMÜ YAYINLANAN · DÜNYADAN",
+    "subtitle": "SON 7 GÜNDE YAYINLANAN BÖLÜMLER",
     "section": "En Yeniler",
-    "folderTitle": "Bugün Bölümü Yayınlanan • Yabancı",
+    "folderTitle": "Yabancı Diziler • Yeni Bölümler",
     "sources": [
       {
         "catalogType": "series",
         "catalogId": "airing_today_series"
       }
     ],
-    "policy": "latest"
+    "policy": "latest",
+    "weeklyRole": "foreign"
   },
   {
     "slug": "yeni-turk-filmleri",
