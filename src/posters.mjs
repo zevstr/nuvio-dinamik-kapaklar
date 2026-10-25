@@ -10,8 +10,10 @@ export function posterLabels(meta){
 }
 export async function renderPoster(bytes,meta){
   const {genre,rating}=posterLabels(meta);
-  const overlay=Buffer.from(`<svg width="600" height="900" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="shade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-opacity="0"/><stop offset="1" stop-opacity=".98"/></linearGradient></defs><rect x="0" y="640" width="600" height="260" fill="url(#shade)"/><rect x="26" y="24" width="180" height="48" rx="12" fill="#111820" fill-opacity=".94"/><text x="116" y="56" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="24" font-weight="700" fill="white">GÜNDEMDE</text><text x="32" y="800" font-family="DejaVu Sans,sans-serif" font-size="32" font-weight="700" fill="white">${xml(genre)}</text><text x="32" y="861" font-family="DejaVu Sans,sans-serif" font-size="38" font-weight="700" fill="#f5cf65">${xml(rating)}</text></svg>`);
-  return sharp(bytes,{limitInputPixels:40_000_000}).rotate().resize(600,900,{fit:'cover'}).composite([{input:overlay}]).jpeg({quality:88}).toBuffer();
+  // Keep the complete original artwork and its title clear of the metadata footer.
+  const art=await sharp(bytes,{limitInputPixels:40_000_000}).rotate().resize(600,800,{fit:'contain',background:'#080c12'}).toBuffer();
+  const overlay=Buffer.from(`<svg width="600" height="900" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="800" width="600" height="100" fill="#101720"/><rect x="26" y="24" width="180" height="48" rx="12" fill="#111820" fill-opacity=".94"/><text x="116" y="56" text-anchor="middle" font-family="DejaVu Sans,sans-serif" font-size="24" font-weight="700" fill="white">GÜNDEMDE</text><text x="26" y="861" font-family="DejaVu Sans,sans-serif" font-size="30" font-weight="700" fill="white">${xml(genre)}</text><text x="574" y="862" text-anchor="end" font-family="DejaVu Sans,sans-serif" font-size="35" font-weight="700" fill="#f5cf65">${xml(rating)}</text></svg>`);
+  return sharp({create:{width:600,height:900,channels:3,background:'#080c12'}}).composite([{input:art,top:0,left:0},{input:overlay}]).jpeg({quality:90}).toBuffer();
 }
 export async function buildPosters(manifest,readSource,output){
   const candidates=(await readSource(manifest,{catalogType:'movie',catalogId:'trending_movies'},false)).filter(m=>/^tt\d+$/.test(m.id)).slice(0,100);
@@ -24,7 +26,8 @@ export async function buildPosters(manifest,readSource,output){
       let detail=null;
       try{detail=JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/movie/${original.id}.json`),2_000_000)).toString()).meta;}catch{}
       if(detail?.id!==original.id)detail=null;
-      const photo=imageUrl(detail?.poster)??imageUrl(original.poster);
+      const photo=imageUrl(original.poster)??imageUrl(detail?.poster);
+      if(photo?.hostname==='images.metahub.space')photo.pathname=photo.pathname.replace('/poster/small/','/poster/medium/');
       if(!photo)throw new Error('No original artwork');
       const meta={...original,genres:detail?.genres??original.genres,imdbRating:detail?.imdbRating};
       const bytes=await renderPoster(await download(photo,12_000_000),meta);
