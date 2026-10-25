@@ -1,6 +1,6 @@
 # Ozan · Nuvio Dinamik Kapaklar
 
-Xperience profilindeki **6 koleksiyon, 50 klasör** için kendi kataloglarından yapım görselleri seçer. Katalog listelerini veya filtrelerini değiştirmez. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
+Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından yapım görselleri seçer. Katalog listelerini veya filtrelerini değiştirmez. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
 
 ## Günlük seçim
 
