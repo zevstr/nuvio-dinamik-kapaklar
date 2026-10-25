@@ -5,7 +5,7 @@
       "YERLİ",
       "DİZİLER"
     ],
-    "subtitle": "SON 7 GÜNDE YAYINLANAN BÖLÜMLER",
+    "subtitle": "SON 7 GÜN · YENİ BÖLÜMLER",
     "section": "En Yeniler",
     "folderTitle": "Yerli Diziler • Yeni Bölümler",
     "sources": [
@@ -57,7 +57,7 @@
       "YABANCI",
       "DİZİLER"
     ],
-    "subtitle": "SON 7 GÜNDE YAYINLANAN BÖLÜMLER",
+    "subtitle": "SON 7 GÜN · YENİ BÖLÜMLER",
     "section": "En Yeniler",
     "folderTitle": "Yabancı Diziler • Yeni Bölümler",
     "sources": [
@@ -75,7 +75,7 @@
       "YENİ TÜRK",
       "FİLMLERİ"
     ],
-    "subtitle": "TÜRK SİNEMASINDA YENİ YAYINLAR",
+    "subtitle": "YENİ TÜRK FİLMLERİ",
     "section": "En Yeniler",
     "folderTitle": "Yeni Türk Filmleri",
     "sources": [
@@ -109,7 +109,7 @@
       "YENİ HİNT",
       "SEÇKİSİ"
     ],
-    "subtitle": "2026 YAPIMLARI · IMDB 6,5+ · 100+ OY",
+    "subtitle": "2026 · IMDB 6,5+ · 100+ OY",
     "section": "En Yeniler",
     "folderTitle": "2026 • Kaliteli Hint Filmleri",
     "sources": [
@@ -126,7 +126,7 @@
       "IMDB",
       "EN İYİ FİLMLER"
     ],
-    "subtitle": "TÜM ZAMANLARIN EN İYİLERİ · TOP 250",
+    "subtitle": "TÜM ZAMANLAR · TOP 250",
     "section": "IMDB Seçkileri",
     "folderTitle": "En İyi Filmler • IMDB 250",
     "sources": [
@@ -143,7 +143,7 @@
       "IMDB",
       "EN İYİ DİZİLER"
     ],
-    "subtitle": "TÜM ZAMANLARIN EN İYİLERİ · TOP 250",
+    "subtitle": "TÜM ZAMANLAR · TOP 250",
     "section": "IMDB Seçkileri",
     "folderTitle": "En İyi Diziler • IMDB 250",
     "sources": [
@@ -194,7 +194,7 @@
       "EN İYİ HİNT",
       "FİLMLERİ"
     ],
-    "subtitle": "HİNT SİNEMASINDAN GÜÇLÜ SEÇKİLER",
+    "subtitle": "HİNT SİNEMASINDAN SEÇKİLER",
     "section": "Hint Sineması",
     "folderTitle": "En İyi Hint Filmleri",
     "sources": [
@@ -469,7 +469,7 @@
     "heading": [
       "GERİLİM"
     ],
-    "subtitle": "MERAKI SON ANA KADAR KORUYANLAR",
+    "subtitle": "SON ANA KADAR MERAK",
     "section": "Ne İzlesem?",
     "folderTitle": "Gerilim",
     "sources": [
@@ -611,7 +611,7 @@
       "GİZLİ",
       "HAZİNELER"
     ],
-    "subtitle": "KEŞFEDİLMEYİ BEKLEYEN FİLMLER",
+    "subtitle": "KEŞFEDİLECEK FİLMLER",
     "section": "Ne İzlesem?",
     "folderTitle": "Gizli Hazineler",
     "sources": [
@@ -661,7 +661,7 @@
       "DÜNYA",
       "SİNEMASI"
     ],
-    "subtitle": "SINIRLARIN ÖTESİNDE HİKÂYELER",
+    "subtitle": "DÜNYADAN HİKÂYELER",
     "section": "Keşfet",
     "folderTitle": "Dünya Sineması",
     "sources": [
@@ -705,7 +705,7 @@
     "heading": [
       "YILDIZLAR"
     ],
-    "subtitle": "SEVDİĞİN OYUNCULARIN FİLMLERİ",
+    "subtitle": "SEVDİĞİN OYUNCULAR",
     "section": "Keşfet",
     "folderTitle": "Yıldızlar",
     "sources": [
@@ -758,7 +758,7 @@
       "MARVEL",
       "EVRENİ"
     ],
-    "subtitle": "MCU VE MARVEL FİLMLERİ · ÇIKIŞ SIRASI",
+    "subtitle": "MARVEL · ÇIKIŞ SIRASI",
     "section": "Film Serileri",
     "folderTitle": "Marvel Evreni",
     "sources": [
@@ -903,7 +903,7 @@
       "JURASSIC",
       "PARK"
     ],
-    "subtitle": "JURASSIC PARK VE JURASSIC WORLD",
+    "subtitle": "JURASSIC PARK & WORLD",
     "section": "Film Serileri",
     "folderTitle": "Jurassic Park",
     "sources": [
@@ -1123,7 +1123,7 @@
       "HİNT",
       "YILDIZLARI"
     ],
-    "subtitle": "BEŞ YILDIZ · UNUTULMAZ FİLMLER",
+    "subtitle": "BEŞ YILDIZ · GÜÇLÜ FİLMLER",
     "section": "Hint Sineması",
     "folderTitle": "Hint Yıldızları",
     "policy": "evergreen",
@@ -1173,7 +1173,7 @@
       "MİNİ DİZİLER",
       "VE ANTOLOJİLER"
     ],
-    "subtitle": "KISA HİKÂYELER · GÜÇLÜ SEZONLAR",
+    "subtitle": "KISA DİZİLER · GÜÇLÜ HİKÂYELER",
     "section": "Ne İzlesem?",
     "folderTitle": "Mini Diziler ve Antolojiler",
     "policy": "evergreen",
@@ -1190,7 +1190,7 @@
       "SUÇ VE",
       "POLİSİYE"
     ],
-    "subtitle": "GİZLİ DOSYALAR · KARANLIK HİKÂYELER",
+    "subtitle": "GİZLİ DOSYALAR",
     "section": "Ne İzlesem?",
     "folderTitle": "Suç ve Polisiye",
     "policy": "evergreen",
@@ -1274,7 +1274,7 @@
       "BANA BİR",
       "FİLM ÖNER"
     ],
-    "subtitle": "GÜNLÜK SEÇKİ · IMDB 7,5+ · 1000+ OY",
+    "subtitle": "IMDB 7,5+ · 1000+ OY",
     "section": "Ne İzlesem?",
     "folderTitle": "Bana Bir Film Öner",
     "policy": "evergreen",

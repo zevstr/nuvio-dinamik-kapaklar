@@ -145,9 +145,9 @@ export function overlay(spec, name, empty = false) {
     <g font-family="DejaVu Sans,sans-serif" font-weight="bold" fill="#fff7ea" letter-spacing="-5">
       ${lines.map((line, i) => `<text x="76" y="${lines.length===1?751:634+i*117}" font-size="${Math.min(116,Math.floor(1380/(line.length*.75)))}">${xml(line)}</text>`).join('')}
     </g>
-    <rect x="82" y="793" width="55" height="3" fill="#e8c58f"/>
-    <text x="158" y="805" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="500" letter-spacing="2" fill="#e4e0d7">${xml(empty ? 'YENİ İÇERİKLER BEKLENİYOR' : spec.subtitle)}</text>
-    ${!empty && name ? `<text x="1516" y="852" text-anchor="end" font-family="DejaVu Sans,sans-serif" font-size="20" fill="#d3d3d3">${xml(name.slice(0, 65))}</text>` : ''}
+    <rect x="76" y="778" width="1448" height="82" rx="12" fill="#05090e" fill-opacity=".92"/>
+    <rect x="76" y="778" width="7" height="82" rx="3" fill="#e8c58f"/>
+    <text x="108" y="836" font-family="DejaVu Sans,sans-serif" font-size="54" font-weight="700" letter-spacing="0" fill="#ffffff">${xml(empty ? 'YENİ İÇERİKLER BEKLENİYOR' : spec.subtitle)}</text>
   </svg>`);
 }
 
