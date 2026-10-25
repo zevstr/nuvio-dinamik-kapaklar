@@ -47,3 +47,11 @@ basılır. Eksik puan gösterilmez; TMDB/katalog karma puanı IMDb diye etiketle
 değildir. Bu aşama sadece Gündemdeki Filmler satırında denenir. Yeni katalog
 üyelerinin afişi bir sonraki günlük üretime kadar mevcut sağlayıcıya düşebilir.
 Önizleme: `/posters/`; üretim denetimi: `/posters/status.json`.
+
+Türkçe afişler ayrıca `/posters/manifest.json` üzerinden bağımsız bir katalog
+olarak sunulur. Xperience'a imported add-on olarak eklenir; satırın Poster art
+ayarı **Original** olmalıdır, böylece hazır Türkçe afiş başka sağlayıcı tarafından
+yeniden işlenmez. Eski `trending_movies` satırı Discover only olarak korunur;
+günlük üretimin veri kaynağı olmaya devam eder. Her başarılı üretim afiş
+bağlantısına sürüm ekleyerek görsel önbelleğini yeniler. Genel poster sağlayıcısı
+ve diğer koleksiyonların afiş ayarları değiştirilmez.
