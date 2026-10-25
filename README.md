@@ -37,3 +37,13 @@ Görseller ilgili yapımların hak sahiplerine aittir. Xperience katalogları TM
 En fazla 80 yerli ve 240 diğer aday, dört eşzamanlı istekle incelenir; bu bir dünya yayın takviminin tamamı değildir. Bölüm tarihleri son 168 saat içinde olmalıdır. Gelecek bölümler ve özel bölümler dışarıda kalır. Geçici ayrıntı hatası bir kez yeniden denenir. Aday kaynakları tamamen boşsa veya ayrıntı hataları hem beşi hem adayların %25'ini aşarsa eksik dağıtım yapılmaz; önceki başarılı yayın korunur. Bu durumda listeler son başarılı taramanın tarihini temsil eder. Kontrol sayfası son tarama saatini, hata ve kurtarılan istek sayılarını gösterir; 36 saatten eski taramada uyarır.
 
 Kapak alt yazıları TV için 54 px, kalın beyaz ve koyu zeminlidir; uzun açıklamalar kısaltılır. Günlük güncelleme başarısı cihaz görsel önbelleğinin yenilendiği anlamına gelmez.
+
+### Türkçe film afişi denemesi
+Günlük üretim `trending_movies` kataloğunun ilk 100 IMDb kimlikli filmi için
+`posters/movie/{imdb_id}.jpg` dosyalarını oluşturur. Orijinal afişin üzerine Türkçe
+tür ve yalnızca Cinemeta'nın açık `imdbRating` alanından alınan 10 üzerinden puan
+basılır. Eksik puan gösterilmez; TMDB/katalog karma puanı IMDb diye etiketlenmez.
+`GÜNDEMDE` rozeti katalog üyeliğidir; günlük sıralama veya izlenebilirlik iddiası
+değildir. Bu aşama sadece Gündemdeki Filmler satırında denenir. Yeni katalog
+üyelerinin afişi bir sonraki günlük üretime kadar mevcut sağlayıcıya düşebilir.
+Önizleme: `/posters/`; üretim denetimi: `/posters/status.json`.

@@ -15,7 +15,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await mkdir(join(temp,'src'));
     await writeFile(join(temp,'package.json'),'{"type":"module"}');
     await symlink(join(root,'node_modules'),join(temp,'node_modules'));
-    for(const name of ['build.mjs','core.mjs','weekly.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
+    for(const name of ['build.mjs','core.mjs','weekly.mjs','posters.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
     const pixels=Buffer.alloc(1280*720*3);
     for(let y=0;y<720;y++)for(let x=0;x<1280;x++){
       const v=((x>>4)+(y>>4))%2?200:30;
@@ -28,6 +28,7 @@ test('multi-source build handles an empty catalog and preserves the last success
       globalThis.fetch=async input=>{
         const url=new URL(input);
         if(url.hostname==='image.tmdb.org')return new Response(picture);
+        if(url.pathname.includes('/meta/movie/'))return Response.json({meta:{id:'tt111',imdbRating:'8.1',genres:['Drama'],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
         if(url.pathname.includes('/meta/series/'))return Response.json({meta:{name:'No recent episode',country:'Turkey',videos:[]}});
         if(url.pathname.endsWith('status.json'))return Response.json({covers:[]});
         if(url.pathname.includes('unavailable'))return new Response('unavailable',{status:503});
