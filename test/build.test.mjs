@@ -28,6 +28,7 @@ test('multi-source build handles an empty catalog and preserves the last success
       globalThis.fetch=async input=>{
         const url=new URL(input);
         if(url.hostname==='image.tmdb.org')return new Response(picture);
+        if(url.pathname.includes('/meta/series/'))return Response.json({meta:{name:'No recent episode',country:'Turkey',videos:[]}});
         if(url.pathname.endsWith('status.json'))return Response.json({covers:[]});
         if(url.pathname.includes('unavailable'))return new Response('unavailable',{status:503});
         if(url.pathname.includes('empty'))return Response.json({metas:[]});

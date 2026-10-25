@@ -1,4 +1,4 @@
-import {catalogUrl,download,imageUrl} from './core.mjs';
+import {catalogUrl,download,imageUrl,CoverError} from './core.mjs';
 
 export function lastAiredEpisode(videos,now=new Date()){
   const end=+now,start=end-7*86400000;
@@ -33,19 +33,29 @@ export async function buildWeeklyCatalogs(manifest,readSource,now=new Date(),fet
   // Independent caps keep provider traffic bounded while preserving a local pool.
   const all=[...candidates.values()];
   const queue=[...all.filter(m=>m._weeklyLocal).slice(0,80),...all.filter(m=>!m._weeklyLocal).slice(0,240)];
-  const local=[],foreign=[];let inspected=0,failed=0;
+  if(!queue.length)throw new CoverError('Dizi tarama kaynakları boş; önceki başarılı yayın korunuyor.');
+  const local=[],foreign=[];let inspected=0,failed=0,retried=0,recovered=0;
   const base=catalogUrl(manifest,{catalogType:'series',catalogId:'unused'});
   let cursor=0;
   await Promise.all(Array.from({length:4},async()=>{
     while(cursor<queue.length){const candidate=queue[cursor++];
       try{const u=new URL(base);u.pathname=u.pathname.replace(/catalog\/series\/unused\.json$/,`meta/series/${encodeURIComponent(candidate.id)}.json`);
-        const body=JSON.parse((await download(u,5_000_000,fetcher)).toString());inspected++;
+        let body;
+        for(let attempt=0;attempt<2;attempt++){
+          try{body=JSON.parse((await download(u,5_000_000,fetcher)).toString());
+            if(!body?.meta||typeof body.meta!=='object')throw new CoverError('Dizi ayrıntıları alınamadı.');
+            if(attempt)recovered++;
+            break;
+          }catch(error){if(attempt)throw error;retried++;await new Promise(resolve=>setTimeout(resolve,250));}
+        }
+        inspected++;
         const entry=weeklyEntry(candidate,body.meta,now);if(entry)(entry.local?local:foreign).push(entry.item);
       }catch{failed++;}
     }
   }));
+  if(failed>Math.max(5,queue.length*.25))throw new CoverError('Dizi ayrıntı kaynağında yaygın hata var; önceki başarılı yayın korunuyor.');
   const order=(a,b)=>b.lastEpisodeReleased.localeCompare(a.lastEpisodeReleased)||a.name.localeCompare(b.name,'tr');
-  return {local:local.sort(order),foreign:foreign.sort(order),generatedAt:now.toISOString(),windowStart:new Date(+now-7*86400000).toISOString(),inspected,failed,sourceFailures,candidateCount:queue.length};
+  return {local:local.sort(order),foreign:foreign.sort(order),generatedAt:now.toISOString(),windowStart:new Date(+now-7*86400000).toISOString(),inspected,failed,retried,recovered,sourceFailures,candidateCount:queue.length};
 }
 
 export function weeklyManifest(){return {id:'org.ozan.weeklyepisodes',version:'1.0.0',name:'Ozan · Son 7 Günde Yeni Bölümler',description:'Bölüm yayın tarihleri doğrulanarak günlük yenilenen yerli ve yabancı dizi katalogları. Oynatma bağlantısı doğrulamaz.',resources:['catalog'],types:['series'],idPrefixes:['tt','tmdb:','tvdb:'],catalogs:[{type:'series',id:'weekly-local',name:'Yerli Diziler • Son 7 Gün',extra:[]},{type:'series',id:'weekly-foreign',name:'Yabancı Diziler • Son 7 Gün',extra:[]}],behaviorHints:{configurable:false}};}

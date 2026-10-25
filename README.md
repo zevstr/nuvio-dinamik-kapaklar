@@ -1,6 +1,6 @@
 # Ozan · Nuvio Dinamik Kapaklar
 
-Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından yapım görselleri seçer. Katalog listelerini veya filtrelerini değiştirmez. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
+Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından yapım görselleri seçer. Kapakların yanında son yedi günde bölümü yayınlanan yerli ve yabancı dizi katalogları üretir. Bu iki katalog bölüm tarihine göre süzülür; diğer katalogların içerik filtreleri Xperience tarafından yönetilir. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
 
 ## Günlük seçim
 
@@ -14,7 +14,7 @@ Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından
 
 ## Kategoriler
 
-En Yeniler (7), IMDB Seçkileri (4), Hint Sineması (6), Ne İzlesem? (10), Keşfet (3), Film Serileri (20). Çok kaynaklı klasörlerin kendi kaynakları birleştirilir. En Yeniler için gerekirse en fazla dört katalog sayfası incelenir. Başka bir kategoriden dolgu fotoğrafı alınmaz.
+En Yeniler (7), IMDB Seçkileri (5), Hint Sineması (8), Ne İzlesem? (14), Keşfet (3), Film Serileri (20). Çok kaynaklı klasörlerin kendi kaynakları birleştirilir. En Yeniler için gerekirse en fazla dört katalog sayfası incelenir. Başka bir kategoriden dolgu fotoğrafı alınmaz.
 
 ## Yayın
 
@@ -24,10 +24,16 @@ GitHub Pages yanıtlarında 10 dakikalık HTTP önbelleği gözlendi. Nuvio ciha
 
 ## Gizli ayar
 
-`XPERIENCE_MANIFEST_URL`, GitHub Actions Repository Secret olarak saklanır. Özel kurulum bağlantısı kodda, herkese açık çıktıda ve hata mesajlarında yayınlanmaz. Bu bağlantı API anahtarları, geçmiş/scrobble ve varsa üye akışlarına erişim içerebilir. Kullanıcı bu depoda gizli ayar olarak saklanmasını açıkça onaylamıştır. Kod yalnızca katalog okur.
+`XPERIENCE_MANIFEST_URL`, GitHub Actions Repository Secret olarak saklanır. Özel kurulum bağlantısı kodda, herkese açık çıktıda ve hata mesajlarında yayınlanmaz. Bu bağlantı API anahtarları, geçmiş/scrobble ve varsa üye akışlarına erişim içerebilir. Kullanıcı bu depoda gizli ayar olarak saklanmasını açıkça onaylamıştır. Kod katalog ve dizi bölüm ayrıntılarını okur; oynatma veya hesap değişikliği yapmaz.
 
 ## Çalıştırma
 
 Node.js 24, DejaVu Sans fontu. `npm ci --ignore-scripts`, `npm test`, gizli ayar ortamda mevcutken `npm run build`. GitHub Pages kaynağı GitHub Actions'tır. Elle çalışma: Actions → Günlük kapakları yenile → Run workflow.
 
 Görseller ilgili yapımların hak sahiplerine aittir. Xperience katalogları TMDB verilerinden yararlanır; bu ürün TMDB tarafından onaylanmış veya sertifikalandırılmış değildir. [TMDB](https://www.themoviedb.org/). Bu sistem oynatma bağlantısı veya izlenebilirlik doğrulamaz.
+
+## Son 7 gün listelerinin güvenilirliği
+
+En fazla 80 yerli ve 240 diğer aday, dört eşzamanlı istekle incelenir; bu bir dünya yayın takviminin tamamı değildir. Bölüm tarihleri son 168 saat içinde olmalıdır. Gelecek bölümler ve özel bölümler dışarıda kalır. Geçici ayrıntı hatası bir kez yeniden denenir. Aday kaynakları tamamen boşsa veya ayrıntı hataları hem beşi hem adayların %25'ini aşarsa eksik dağıtım yapılmaz; önceki başarılı yayın korunur. Bu durumda listeler son başarılı taramanın tarihini temsil eder. Kontrol sayfası son tarama saatini, hata ve kurtarılan istek sayılarını gösterir; 36 saatten eski taramada uyarır.
+
+Kapak alt yazıları TV için 54 px, kalın beyaz ve koyu zeminlidir; uzun açıklamalar kısaltılır. Günlük güncelleme başarısı cihaz görsel önbelleğinin yenilendiği anlamına gelmez.
