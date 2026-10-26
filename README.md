@@ -4,7 +4,7 @@ Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından
 
 ## Günlük seçim
 
-- Türkiye saatiyle yaklaşık **06:17** kontrol edilir. Her gün zorunlu fotoğraf değişimi yapılmaz.
+- Türkiye saatiyle yaklaşık **06:00 ve 16:00** kontrol edilir. Her gün zorunlu fotoğraf değişimi yapılmaz.
 - Güncellik yalnızca En Yeniler seçimine ağırlık verir. Klasik film, tür ve seri koleksiyonlarında eski yapımlar elenmez.
 - Katalogda sağlanıyorsa puan, oy sayısı ve popülerlik kullanılır. Bu alanlar yoksa uydurulmaz; kaynak sırası ve diğer mevcut bilgilerle değerlendirme yapılır.
 - Yeni film kapaklarında kısa yapımlar; yeni dizi kapaklarında haber, talk-show ve reality içerikleri geri planda tutulur. Bu kural yalnızca görsel seçimini etkiler.
@@ -71,3 +71,5 @@ ve haftalık liste için ayrı ayrı uygulanır. Bu geliştirme anahtar eklenip 
 API ile kontrol edilene kadar ayrı geliştirme dalında tutulur.
 
 Gündemdeki Filmler artık doğrudan TMDB günlük ilk 20 filminden üretilir. Xperience seçkisi kullanılmaz. Eksik IMDb kimliği veya afiş üretimi yayını durdurur; önceki yayın korunur.
+
+Katalog yanıtları cacheMaxAge: 3600 bildirir; Xperience içe aktarılan listeleri bir saatlik önbellekle yenileyebilir. GitHub zamanlanmış işler gecikebilir. Cihaz önbelleği ek gecikme yaratabilir.

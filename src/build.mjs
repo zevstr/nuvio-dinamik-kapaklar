@@ -69,8 +69,8 @@ try {
   weekly.posterStatus=await buildWeeklyPosters(weekly,staging);
   await mkdir(`${staging}/catalog/series`,{recursive:true});
   await writeFile(`${staging}/manifest.json`,JSON.stringify(weeklyManifest()));
-  await writeFile(`${staging}/catalog/series/weekly-local.json`,JSON.stringify({metas:weekly.local}));
-  await writeFile(`${staging}/catalog/series/weekly-foreign.json`,JSON.stringify({metas:weekly.foreign}));
+  await writeFile(`${staging}/catalog/series/weekly-local.json`,JSON.stringify({metas:weekly.local,cacheMaxAge:3600}));
+  await writeFile(`${staging}/catalog/series/weekly-foreign.json`,JSON.stringify({metas:weekly.foreign,cacheMaxAge:3600}));
   await writeFile(`${staging}/weekly-status.json`,JSON.stringify({...weekly,local:weekly.local.length,foreign:weekly.foreign.length},null,2));
   console.log(`Son 7 gün: ${weekly.inspected} dizi incelendi; ${weekly.local.length} yerli, ${weekly.foreign.length} yabancı; ${weekly.failed} yanıt alınamadı.`);
   const posterStatus=await buildPosters(manifest,readSource,staging);

@@ -46,7 +46,7 @@ test('Daily catalog uses TMDB candidates and refuses incomplete artwork publicat
    const result=await buildPosters('unused',source,dir,options);
    const catalog=JSON.parse(await readFile(join(dir,'posters/catalog/movie/ozan-trending.json'),'utf8'));
    assert.deepEqual(result.entries.map(e=>e.id),['tt1','tt3']);
-   assert.deepEqual(catalog.metas.map(e=>e.id),['tt1','tt3']);
+   assert.deepEqual(catalog.metas.map(e=>e.id),['tt1','tt3']);assert.equal(catalog.cacheMaxAge,3600);
    options.trends.dailyCandidates.push({id:'tt2',name:'Missing artwork'});
    await assert.rejects(buildPosters('unused',source,dir,options),/mevcut yayın korunuyor/);
 

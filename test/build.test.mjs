@@ -51,6 +51,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     const stateBytes=await readFile(join(temp,'dist','status.json'));
     const state=JSON.parse(stateBytes);
     assert.equal(state.covers.length,3);
+    for(const id of ['weekly-local','weekly-foreign'])assert.equal(JSON.parse(await readFile(join(temp,'dist','catalog','series',id+'.json'))).cacheMaxAge,3600);
     assert.equal(state.covers[0].empty,false);
     assert.equal(state.covers[1].empty,true);
     assert.equal(state.covers[2].empty,false);

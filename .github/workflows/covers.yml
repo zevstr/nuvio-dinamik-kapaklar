@@ -2,7 +2,8 @@ name: Günlük kapakları yenile
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 3 * * *'
+    # UTC 03:00 / 13:00 = Türkiye 06:00 / 16:00
+    - cron: '0 3,13 * * *'
 
 permissions:
   contents: read
