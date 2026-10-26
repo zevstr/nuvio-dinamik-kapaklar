@@ -56,8 +56,16 @@ günlük üretimin veri kaynağı olmaya devam eder. Her başarılı üretim afi
 bağlantısına sürüm ekleyerek görsel önbelleğini yeniler. Genel poster sağlayıcısı
 ve diğer koleksiyonların afiş ayarları değiştirilmez.
 
-Afişlerin üst rozeti `BU LİSTEDE #1` biçimindedir. Numara, başarılı afişlerden
-oluşan yayınlanmış kataloğun sırasıdır; global/IMDB popülerlik sırası değildir.
-Afişi üretilemeyen adaylar numarada boşluk bırakmaz. Kişisel izlenenleri gizleme
-filtreleri cihazdaki görünür konumu değiştirebilir. Her günlük üretim numaraları
-ve görsel önbellek sürümünü birlikte yeniler.
+### Gerçek TMDB trend rozetleri
+Üst rozetler TMDB günlük ilk 100 sırasını, günlük listede olmayanlar için haftalık
+ilk 100 sırasını gösterir. Yerel katalogdaki konum rozet için kullanılmaz; gizleme
+ve filtreleme gerçek TMDB numaralarını değiştirmez. Trend listesinde doğrulanmış
+IMDb eşleşmesi yoksa rozet çizilmez. IMDb puanı ayrı alt şeritte kalır.
+
+Üretim için GitHub Actions repository secret `TMDB_READ_ACCESS_TOKEN` gerekir.
+Değer TMDB hesabındaki **API Read Access Token** olmalıdır. Token yalnızca
+`api.themoviedb.org` sunucusuna Authorization başlığında gönderilir; URL'lere,
+kaynak koda ve kamuya açık durum dosyalarına yazılmaz. Anahtar eksik veya API
+verisi doğrulanamıyorsa üretim durur ve önceki yayın korunur. İlk 100 sınırı günlük
+ve haftalık liste için ayrı ayrı uygulanır. Bu geliştirme anahtar eklenip canlı
+API ile kontrol edilene kadar ayrı geliştirme dalında tutulur.
