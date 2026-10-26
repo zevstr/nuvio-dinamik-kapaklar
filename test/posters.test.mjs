@@ -1,7 +1,12 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
-import {posterLabels,renderPoster,posterCatalogMeta,posterManifest,buildPosters} from '../src/posters.mjs';
+import {posterLabels,renderPoster,posterCatalogMeta,posterManifest,buildPosters,comparePosterTrends} from '../src/posters.mjs';
+test('Daily ranks precede weekly ranks, unranked retain source order',()=>{
+ const entry=(id,period,rank)=>({id,tmdbTrend:period?{source:'TMDB',period,rank}:null});
+ const items=[entry('unknown1'),entry('week1','week',1),entry('day13','day',13),entry('unknown2'),entry('day3','day',3)];
+ assert.deepEqual(items.sort(comparePosterTrends).map(e=>e.id),['day3','day13','week1','unknown1','unknown2']);
+});
 test('Only explicit valid IMDb ratings are labeled, never composite or TMDB',()=>{
   assert.deepEqual(posterLabels({genres:['Thriller'],imdbRating:'8.2'}),{genre:'Gerilim',rating:'IMDB 8,2'});
   for(const v of [undefined,'82','N/A','-1','8.2fake',0])assert.equal(posterLabels({rating:8.2,vote_average:8.2,imdbRating:v}).rating,'');
@@ -36,7 +41,7 @@ test('TMDB ranks are never renumbered when another artwork fails',async()=>{
    return u.pathname.includes('tt2.jpg')?new Response('',{status:404}):new Response(image);
  };
  try{
-   const result=await buildPosters('unused',async()=>[1,2,3].map(n=>({id:`tt${n}`,name:`Film ${n}`})),dir,{trends:{byImdb:new Map([['tt1',{source:'TMDB',period:'day',rank:7}],['tt3',{source:'TMDB',period:'week',rank:23}]])}});
+   const result=await buildPosters('unused',async()=>[3,2,1].map(n=>({id:`tt${n}`,name:`Film ${n}`})),dir,{trends:{byImdb:new Map([['tt1',{source:'TMDB',period:'day',rank:7}],['tt3',{source:'TMDB',period:'week',rank:23}]])}});
    const catalog=JSON.parse(await readFile(join(dir,'posters/catalog/movie/ozan-trending.json'),'utf8'));
    assert.deepEqual(result.entries.map(e=>[e.id,e.tmdbTrend.rank]),[['tt1',7],['tt3',23]]);
    assert.deepEqual(catalog.metas.map(e=>e.id),['tt1','tt3']);assert.equal(result.failed,1);

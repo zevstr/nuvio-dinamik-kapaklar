@@ -9,6 +9,11 @@ export function posterLabels(meta){
   const rating=/^\d{1,2}(\.\d)?$/.test(raw)?Number(raw):NaN;
   return {genre,rating:Number.isFinite(rating)&&rating>0&&rating<=10?`IMDB ${rating.toFixed(1).replace('.',',')}`:''};
 }
+export function comparePosterTrends(a,b){
+  const key=e=>trendLabel(e.tmdbTrend)?[e.tmdbTrend.period==='day'?0:1,e.tmdbTrend.rank]:[2,0];
+  const x=key(a),y=key(b);
+  return x[0]-y[0]||x[1]-y[1];
+}
 export function posterCatalogMeta(original,detail,version){
   if(!/^tt\d+$/.test(original.id))throw new Error('Invalid IMDb identifier');
   const labels=posterLabels({genres:detail?.genres??original.genres,imdbRating:detail?.imdbRating});
@@ -64,6 +69,9 @@ export async function buildPosters(manifest,readSource,output,{trends}={}){
     }
   }
   if(!entries.length)throw new CoverError('Türkçe afiş üretimi başarısız; mevcut yayın korunuyor.');
+  entries.sort(comparePosterTrends);
+  const positions=new Map(entries.map((entry,index)=>[entry.id,index]));
+  metas.sort((a,b)=>positions.get(a.id)-positions.get(b.id));
   const status={generatedAt:new Date().toISOString(),scope:'trending_movies',ratingSource:'Cinemeta imdbRating',ranking:'tmdb_global_trending',rankingSource:'TMDB',trendCheckedAt:trendData.checkedAt,trendCoverage:{day:trendData.dayCount,week:trendData.weekCount,mapped:trendData.mapped,failed:trendData.failed},generated:entries.length,candidates:candidates.length,failed,entries};
   await mkdir(`${output}/posters/catalog/movie`,{recursive:true});
   await writeFile(`${output}/posters/manifest.json`,JSON.stringify(posterManifest()));
