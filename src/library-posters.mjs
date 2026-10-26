@@ -17,15 +17,17 @@ export function posterSources(specs,manifest){
 export function trustedDetail(payload,identity){
   const m=payload?.meta;
   if(m?.id!==identity.id||(m.type&&m.type!==identity.type))return null;
+  const photo=imageUrl(m.poster);
+  if(photo?.hostname==='images.metahub.space')photo.pathname=photo.pathname.replace('/poster/small/','/poster/medium/');
   return {id:identity.id,type:identity.type,name:typeof m.name==='string'?m.name.slice(0,300):identity.id,
     genres:Array.isArray(m.genres)?m.genres.filter(g=>typeof g==='string'):[],imdbRating:m.imdbRating,
-    poster:imageUrl(m.poster)?.href??null};
+    poster:photo?.href??null};
 }
 
 // One shared identity path across every catalog. Never infer a rating from TMDB or
 // infer a stream's audio language from a title's country or original language.
 export async function buildLibraryPosters(manifestUrl,readSource,specs,output,{
-  cacheDir='.poster-cache',fetcher=fetch,now=Date.now(),maxTitles=8000,concurrency=6,
+  cacheDir='.poster-cache',fetcher=fetch,now=Date.now(),maxTitles=8000,concurrency=8,
 }={}){
   let manifest;
   try{manifest=JSON.parse((await download(new URL(manifestUrl),5_000_000,fetcher)).toString());}catch{manifest={};}
@@ -52,14 +54,14 @@ export async function buildLibraryPosters(manifestUrl,readSource,specs,output,{
     const key=`${identity.type}-${identity.id}`,jpg=join(cacheDir,`${key}.jpg`),json=join(cacheDir,`${key}.json`);
     const destination=join(output,'art',identity.type,`${identity.id}.jpg`);
     let cached;
-    try{cached=JSON.parse(await readFile(json,'utf8'));if(cached.schema!==1||cached.id!==identity.id||cached.type!==identity.type)cached=null;}catch{}
+    try{cached=JSON.parse(await readFile(json,'utf8'));if(cached.schema!==2||cached.id!==identity.id||cached.type!==identity.type)cached=null;}catch{}
     const keep=async()=>{const bytes=await readFile(jpg);if(!bytes.length)throw Error();await copyFile(jpg,destination);totalBytes+=bytes.length;entries.push({...cached,stale:now-cached.updatedAt>=DAY});};
     if(cached&&now-cached.updatedAt<DAY){try{await keep();reused++;return;}catch{}}
     try{
       const detail=trustedDetail(JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/${identity.type}/${identity.id}.json`),2_000_000,fetcher)).toString()),identity);
       if(!detail?.poster)throw Error();
       const bytes=await renderPoster(await download(new URL(detail.poster),12_000_000,fetcher),detail);
-      const entry={schema:1,...identity,name:detail.name,...posterLabels(detail),updatedAt:now};
+      const entry={schema:2,...identity,name:detail.name,...posterLabels(detail),updatedAt:now};
       await writeFile(jpg,bytes);await writeFile(json,JSON.stringify(entry));
       await writeFile(destination,bytes);totalBytes+=bytes.length;entries.push(entry);generated++;
     }catch{

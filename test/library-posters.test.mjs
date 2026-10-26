@@ -14,6 +14,7 @@ test('Shared artwork uses typed IMDb identities and rejects mismatched metadata 
   assert.equal(trustedDetail({meta:{id:'tt1',type:'series'}}, {id:'tt1',type:'movie'}),null);
   const detail=trustedDetail({meta:{id:'tt1',vote_average:9,rating:95,poster:'https://private.invalid/key',secret:'secret'}},{id:'tt1',type:'movie'});
   assert.equal(detail.imdbRating,undefined);assert.equal(detail.poster,null);
+  assert.equal(trustedDetail({meta:{id:'tt1',poster:'https://images.metahub.space/poster/small/tt1/img'}},{id:'tt1',type:'movie'}).poster,'https://images.metahub.space/poster/medium/tt1/img');
   assert.ok(!JSON.stringify(detail).includes('secret'));
   assert.equal(posterSources([{sources:[{catalogType:'movie',catalogId:'a'}]}],{catalogs:[{type:'movie',id:'a'},{type:'series',id:'b'}]}).length,2);
 });
