@@ -29,7 +29,7 @@ test('Public poster catalog preserves IMDb identity and never copies private pro
  assert.deepEqual(posterManifest().resources,['catalog']);
 });
 
-test('TMDB ranks are never renumbered when another artwork fails',async()=>{
+test('Daily catalog uses TMDB candidates and refuses incomplete artwork publication',async()=>{
  const {mkdtemp,readFile,rm}=await import('node:fs/promises');
  const {tmpdir}=await import('node:os');const {join}=await import('node:path');
  const dir=await mkdtemp(join(tmpdir(),'ozan-poster-ranks-'));
@@ -41,10 +41,14 @@ test('TMDB ranks are never renumbered when another artwork fails',async()=>{
    return u.pathname.includes('tt2.jpg')?new Response('',{status:404}):new Response(image);
  };
  try{
-   const result=await buildPosters('unused',async()=>[3,2,1].map(n=>({id:`tt${n}`,name:`Film ${n}`})),dir,{trends:{byImdb:new Map([['tt1',{source:'TMDB',period:'day',rank:7}],['tt3',{source:'TMDB',period:'week',rank:23}]])}});
+   const options={trends:{dailyCandidates:[1,3].map(n=>({id:`tt${n}`,name:`Film ${n}`})),byImdb:new Map([['tt1',{source:'TMDB',period:'day',rank:1}],['tt3',{source:'TMDB',period:'day',rank:2}]])}};
+   const source=async()=>{throw Error('Xperience must not supply this catalog');};
+   const result=await buildPosters('unused',source,dir,options);
    const catalog=JSON.parse(await readFile(join(dir,'posters/catalog/movie/ozan-trending.json'),'utf8'));
-   assert.deepEqual(result.entries.map(e=>[e.id,e.tmdbTrend.rank]),[['tt1',7],['tt3',23]]);
-   assert.deepEqual(catalog.metas.map(e=>e.id),['tt1','tt3']);assert.equal(result.failed,1);
-   assert.equal(result.ranking,'tmdb_global_trending');
+   assert.deepEqual(result.entries.map(e=>e.id),['tt1','tt3']);
+   assert.deepEqual(catalog.metas.map(e=>e.id),['tt1','tt3']);
+   options.trends.dailyCandidates.push({id:'tt2',name:'Missing artwork'});
+   await assert.rejects(buildPosters('unused',source,dir,options),/mevcut yayın korunuyor/);
+
  }finally{globalThis.fetch=savedFetch;await rm(dir,{recursive:true,force:true});}
 });

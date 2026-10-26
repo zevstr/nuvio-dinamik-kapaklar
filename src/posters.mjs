@@ -28,7 +28,7 @@ export function posterCatalogMeta(original,detail,version){
   if(background)meta.background=background.href;
   return meta;
 }
-export function posterManifest(){return {id:'org.ozan.turkce-afisler',version:'1.0.0',name:'Ozan · Türkçe Afişli Filmler',description:'Günlük gündem seçkisi; Türkçe tür ve Cinemeta üzerinden IMDB puanı. Oynatma bağlantısı doğrulanmaz.',resources:['catalog'],types:['movie'],idPrefixes:['tt'],catalogs:[{id:'ozan-trending',type:'movie',name:'Gündemdeki Filmler · Türkçe Afişler'}]};}
+export function posterManifest(){return {id:'org.ozan.turkce-afisler',version:'1.0.0',name:'Ozan · Türkçe Afişli Filmler',description:'TMDB günlük ilk 20 film; Türkçe tür ve Cinemeta üzerinden IMDB puanı. Oynatma bağlantısı doğrulanmaz.',resources:['catalog'],types:['movie'],idPrefixes:['tt'],catalogs:[{id:'ozan-trending',type:'movie',name:'Gündemdeki Filmler · Türkçe Afişler'}]};}
 export async function renderPoster(bytes,meta){
   const {genre,rating}=posterLabels(meta);
   const label=trendLabel(meta.tmdbTrend);
@@ -39,7 +39,8 @@ export async function renderPoster(bytes,meta){
 }
 export async function buildPosters(manifest,readSource,output,{trends}={}){
   const trendData=trends??await loadTmdbTrends(process.env.TMDB_READ_ACCESS_TOKEN);
-  const candidates=(await readSource(manifest,{catalogType:'movie',catalogId:'trending_movies'},false)).filter(m=>/^tt\d+$/.test(m.id)).slice(0,100);
+  const candidates=trendData.dailyCandidates;
+  if(!Array.isArray(candidates))throw new CoverError('TMDB günlük katalog verisi eksik.');
   if(!candidates.length)throw new CoverError('Türkçe afiş denemesi için gündem kataloğu boş.');
   await mkdir(`${output}/posters/movie`,{recursive:true});
   const entries=[],metas=[];let failed=0;
@@ -68,15 +69,15 @@ export async function buildPosters(manifest,readSource,output,{trends}={}){
       }catch{failed++;}
     }
   }
-  if(!entries.length)throw new CoverError('Türkçe afiş üretimi başarısız; mevcut yayın korunuyor.');
+  if(entries.length!==candidates.length)throw new CoverError('Türkçe afiş üretimi başarısız; mevcut yayın korunuyor.');
   entries.sort(comparePosterTrends);
   const positions=new Map(entries.map((entry,index)=>[entry.id,index]));
   metas.sort((a,b)=>positions.get(a.id)-positions.get(b.id));
-  const status={generatedAt:new Date().toISOString(),scope:'trending_movies',ratingSource:'Cinemeta imdbRating',ranking:'tmdb_global_trending',rankingSource:'TMDB',trendCheckedAt:trendData.checkedAt,trendCoverage:{day:trendData.dayCount,week:trendData.weekCount,mapped:trendData.mapped,failed:trendData.failed},generated:entries.length,candidates:candidates.length,failed,entries};
+  const status={generatedAt:new Date().toISOString(),scope:'tmdb_daily_top20',ratingSource:'Cinemeta imdbRating',ranking:'tmdb_global_trending',rankingSource:'TMDB',trendCheckedAt:trendData.checkedAt,trendCoverage:{day:trendData.dayCount,week:trendData.weekCount,mapped:trendData.mapped,failed:trendData.failed},generated:entries.length,candidates:candidates.length,failed,entries};
   await mkdir(`${output}/posters/catalog/movie`,{recursive:true});
   await writeFile(`${output}/posters/manifest.json`,JSON.stringify(posterManifest()));
   await writeFile(`${output}/posters/catalog/movie/ozan-trending.json`,JSON.stringify({metas}));
   await writeFile(`${output}/posters/status.json`,JSON.stringify(status,null,2));
-  await writeFile(`${output}/posters/index.html`,`<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ozan · Türkçe Afiş Denemesi</title><style>body{background:#0b0d10;color:#fff;font:18px system-ui;margin:32px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}img{width:100%;border-radius:16px}p{color:#bec5cf}article{max-width:300px}</style><h1>Gündemdeki Filmler · Türkçe Afişler</h1><p>Türkçe tür · Kaynağı belirtilen IMDB puanı · Günlük yenileme</p><p>Puan Cinemeta üzerinden alınır; puanı bulunmayan yapımlarda puan gösterilmez. Üst rozet TMDB günlük trend sırasını, günlük listede yoksa haftalık trend sırasını gösterir. Katalog filtreleri numarayı değiştirmez; ilk 100 içinde doğrulanmış sıra yoksa rozet gizlenir. Oynatma bağlantısı doğrulanmaz. Görseller ilgili hak sahiplerine aittir. <a href="https://www.themoviedb.org/">TMDB</a> · This product uses the TMDB API but is not endorsed or certified by TMDB.</p><main>${entries.map(e=>`<article><img src="movie/${e.id}.jpg?v=${version}" alt="${xml(e.name)}"><p>${xml(e.name)}</p></article>`).join('')}</main></html>`);
+  await writeFile(`${output}/posters/index.html`,`<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ozan · Türkçe Afiş Denemesi</title><style>body{background:#0b0d10;color:#fff;font:18px system-ui;margin:32px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}img{width:100%;border-radius:16px}p{color:#bec5cf}article{max-width:300px}</style><h1>Gündemdeki Filmler · Türkçe Afişler</h1><p>Türkçe tür · Kaynağı belirtilen IMDB puanı · Günlük yenileme</p><p>Puan Cinemeta üzerinden alınır; puanı bulunmayan yapımlarda puan gösterilmez. Bu katalog doğrudan TMDB günlük ilk 20 filminden oluşur. Üst rozet ve katalog sırası aynı günlük veriden üretilir. Oynatma bağlantısı doğrulanmaz. Görseller ilgili hak sahiplerine aittir. <a href="https://www.themoviedb.org/">TMDB</a> · This product uses the TMDB API but is not endorsed or certified by TMDB.</p><main>${entries.map(e=>`<article><img src="movie/${e.id}.jpg?v=${version}" alt="${xml(e.name)}"><p>${xml(e.name)}</p></article>`).join('')}</main></html>`);
   return status;
 }

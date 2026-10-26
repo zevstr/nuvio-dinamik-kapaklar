@@ -69,3 +69,5 @@ kaynak koda ve kamuya açık durum dosyalarına yazılmaz. Anahtar eksik veya AP
 verisi doğrulanamıyorsa üretim durur ve önceki yayın korunur. İlk 100 sınırı günlük
 ve haftalık liste için ayrı ayrı uygulanır. Bu geliştirme anahtar eklenip canlı
 API ile kontrol edilene kadar ayrı geliştirme dalında tutulur.
+
+Gündemdeki Filmler artık doğrudan TMDB günlük ilk 20 filminden üretilir. Xperience seçkisi kullanılmaz. Eksik IMDb kimliği veya afiş üretimi yayını durdurur; önceki yayın korunur.

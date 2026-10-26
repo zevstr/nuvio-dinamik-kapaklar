@@ -15,13 +15,13 @@ async function readJson(path,token,fetcher){
 }
 export async function loadTmdbTrends(token,{fetcher=fetch,pages=5,now=new Date()}={}){
   if(!token?.trim())throw new CoverError('TMDB_READ_ACCESS_TOKEN gizli ayarı gerekiyor. Önceki yayın korunuyor.');
-  const checkedAt=now.toISOString();const lists={day:new Map(),week:new Map()};
+  const dailyItems=[];const checkedAt=now.toISOString();const lists={day:new Map(),week:new Map()};
   for(const period of ['day','week']){
     let rank=0;
     for(let page=1;page<=pages;page++){
       const data=await readJson(`trending/movie/${period}?language=tr-TR&page=${page}`,token,fetcher);
       if(!Array.isArray(data.results)||!data.results.length)throw new CoverError('TMDB trend listesi boş veya eksik. Önceki yayın korunuyor.');
-      for(const item of data.results){rank++;if(Number.isInteger(item.id)&&item.id>0&&!lists[period].has(item.id))lists[period].set(item.id,rank);}
+      for(const item of data.results){rank++;if(period==='day')dailyItems.push({...item,rank});if(Number.isInteger(item.id)&&item.id>0&&!lists[period].has(item.id))lists[period].set(item.id,rank);}
       if(page>=Number(data.total_pages||1))break;
     }
   }
@@ -41,5 +41,7 @@ export async function loadTmdbTrends(token,{fetcher=fetch,pages=5,now=new Date()
     const imdb=imdbIds.get(tmdbId);
     if(imdb&&!byImdb.has(imdb))byImdb.set(imdb,{source:'TMDB',period,rank,tmdbId,checkedAt});
   }
-  return {byImdb,checkedAt,dayCount:lists.day.size,weekCount:lists.week.size,mapped:imdbIds.size,failed};
+  const dailyCandidates=dailyItems.slice(0,20).map(item=>({id:imdbIds.get(item.id),type:'movie',name:item.title||item.original_title||`TMDB ${item.id}`,description:item.overview||'',releaseInfo:item.release_date||'',poster:item.poster_path?`https://image.tmdb.org/t/p/w780${item.poster_path}`:null,background:item.backdrop_path?`https://image.tmdb.org/t/p/w1280${item.backdrop_path}`:null}));
+  if(dailyCandidates.some(item=>!item.id))throw new CoverError('TMDB günlük ilk 20 kimlikleri eksik. Önceki yayın korunuyor.');
+  return {dailyCandidates,byImdb,checkedAt,dayCount:lists.day.size,weekCount:lists.week.size,mapped:imdbIds.size,failed};
 }
