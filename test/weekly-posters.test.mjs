@@ -5,7 +5,7 @@ import {episodeLabels,renderEpisodePoster} from '../src/weekly-posters.mjs';
 import {seriesArtwork} from '../src/tmdb-trends.mjs';
 test('Episode labels use Istanbul date and reject missing episode information',async()=>{
  const item={lastEpisodeSeason:2,lastEpisodeNumber:16,lastEpisodeReleased:'2026-10-25T22:00:00Z'};
- assert.deepEqual(episodeLabels(item),{episode:'2. SEZON · 16. BÖLÜM',date:'26 EKİM'});
+ assert.deepEqual(episodeLabels(item),{episode:'2. SEZON · 16. BÖLÜM',date:'26 EKİM · PAZARTESİ'});
  assert.throws(()=>episodeLabels({...item,lastEpisodeNumber:0}));
  const picture=await sharp({create:{width:400,height:600,channels:3,background:'#123456'}}).jpeg().toBuffer();
  const result=await sharp(await renderEpisodePoster(picture,item,true)).metadata();
