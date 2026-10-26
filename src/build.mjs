@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {catalogUrl, download, normalizeCatalog, choosePhoto, renderCover, CoverError, xml} from './core.mjs';
 import {buildWeeklyCatalogs,weeklyManifest} from './weekly.mjs';
 import {buildPosters} from './posters.mjs';
+import {buildWeeklyPosters} from './weekly-posters.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const specs = JSON.parse(await readFile(`${root}covers.json`, 'utf8'));
@@ -65,6 +66,7 @@ try {
   await rm(staging, {recursive:true, force:true});
   await mkdir(`${staging}/covers`,{recursive:true});
   const weekly=await buildWeeklyCatalogs(manifest,readSource);
+  weekly.posterStatus=await buildWeeklyPosters(weekly,staging);
   await mkdir(`${staging}/catalog/series`,{recursive:true});
   await writeFile(`${staging}/manifest.json`,JSON.stringify(weeklyManifest()));
   await writeFile(`${staging}/catalog/series/weekly-local.json`,JSON.stringify({metas:weekly.local}));

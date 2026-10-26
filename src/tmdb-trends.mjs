@@ -13,6 +13,13 @@ async function readJson(path,token,fetcher){
     return JSON.parse(Buffer.concat(chunks).toString());
   }catch{throw new CoverError('TMDB trend verisi okunamadı. Önceki yayın korunuyor.');}
 }
+export async function seriesArtwork(id,token,fetcher=fetch){
+  if(!/^tt\d+$/.test(id)||!token)return null;
+  const data=await readJson(`find/${id}?external_source=imdb_id&language=tr-TR`,token,fetcher);
+  const item=data.tv_results?.length===1?data.tv_results[0]:null;
+  if(!item)return null;
+  return {name:item.name,poster:item.poster_path?`https://image.tmdb.org/t/p/w780${item.poster_path}`:null};
+}
 export async function loadTmdbTrends(token,{fetcher=fetch,pages=5,now=new Date()}={}){
   if(!token?.trim())throw new CoverError('TMDB_READ_ACCESS_TOKEN gizli ayarı gerekiyor. Önceki yayın korunuyor.');
   const dailyItems=[];const checkedAt=now.toISOString();const lists={day:new Map(),week:new Map()};
