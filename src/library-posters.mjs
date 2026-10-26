@@ -55,27 +55,28 @@ export async function buildLibraryPosters(manifestUrl,readSource,specs,output,{
     const key=`${identity.type}-${identity.id}`,jpg=join(cacheDir,`${key}.jpg`),json=join(cacheDir,`${key}.json`);
     const destination=join(output,'art',identity.type,`${identity.id}.jpg`);
     let cached;
-    try{cached=JSON.parse(await readFile(json,'utf8'));if(cached.schema!==2||cached.id!==identity.id||cached.type!==identity.type)cached=null;}catch{}
+    try{cached=JSON.parse(await readFile(json,'utf8'));if(![2,3].includes(cached.schema)||cached.id!==identity.id||cached.type!==identity.type)cached=null;}catch{}
+    const verifiedArt=cached?.artworkSource==='TMDB exact IMDb lookup';
     const keep=async()=>{const bytes=await readFile(jpg);if(!bytes.length)throw Error();await copyFile(jpg,destination);totalBytes+=bytes.length;entries.push({...cached,stale:now-cached.updatedAt>=DAY});};
-    if(cached&&now-cached.updatedAt<DAY){try{await keep();reused++;return;}catch{}}
+    if(verifiedArt&&now-cached.updatedAt<DAY){try{await keep();reused++;return;}catch{}}
     try{
-      let detail=null,bytes=null,artworkSource='Cinemeta';
-      try{
-        detail=trustedDetail(JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/${identity.type}/${identity.id}.json`),2_000_000,fetcher)).toString()),identity);
-        if(detail?.poster)bytes=await renderPoster(await download(new URL(detail.poster),12_000_000,fetcher),detail);
+      let imdbRating;
+      // Reuse only a fresh, previously validated Cinemeta rating, never its art.
+      if(cached&&now-cached.updatedAt<DAY&&/^IMDB \d{1,2},\d$/.test(cached.rating??''))imdbRating=cached.rating.slice(5).replace(',','.');
+      else try{
+        imdbRating=trustedDetail(JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/${identity.type}/${identity.id}.json`),2_000_000,fetcher)).toString()),identity)?.imdbRating;
       }catch{}
-      if(!bytes){
-        const fallback=await titleArtwork(identity,tmdbToken,fetcher);
-        if(!fallback?.poster)throw Error();
-        // The TMDB vote_average is never copied into the IMDb rating slot.
-        detail={...fallback,imdbRating:detail?.imdbRating};artworkSource='TMDB exact IMDb lookup';
-        bytes=await renderPoster(await download(new URL(fallback.poster),12_000_000,fetcher),detail);
-      }
-      const entry={schema:2,...identity,name:detail.name,...posterLabels(detail),artworkSource,updatedAt:now};
+      const artwork=await titleArtwork(identity,tmdbToken,fetcher);
+      if(!artwork?.poster)throw Error();
+      // Generic image-CDN lookups can return a different show's image. All art
+      // must now come from a single exact, correctly typed TMDB find result.
+      const detail={...artwork,imdbRating};
+      const bytes=await renderPoster(await download(new URL(artwork.poster),12_000_000,fetcher),detail);
+      const entry={schema:3,...identity,name:detail.name,...posterLabels(detail),artworkSource:'TMDB exact IMDb lookup',updatedAt:now};
       await writeFile(jpg,bytes);await writeFile(json,JSON.stringify(entry));
       await writeFile(destination,bytes);totalBytes+=bytes.length;entries.push(entry);generated++;
     }catch{
-      if(cached){try{await keep();retained++;return;}catch{}}
+      if(verifiedArt){try{await keep();retained++;return;}catch{}}
       // A cache miss is deliberately a 404, allowing Xperience to use original art.
       // A generic placeholder here would falsely count as a successful provider image.
       failed++;

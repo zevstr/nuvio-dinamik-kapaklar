@@ -29,6 +29,7 @@ test('multi-source build handles an empty catalog and preserves the last success
         const url=new URL(input);
         if(url.pathname.includes('/trending/movie/'))return Response.json({results:[{id:111}],total_pages:1});
         if(url.pathname.includes('/external_ids'))return Response.json({id:111,imdb_id:'tt111'});
+        if(url.pathname.includes('/find/')){const item={id:111,title:'Test',poster_path:'/fixture.jpg',genre_ids:[18]};return Response.json(url.pathname.includes('tt0903747')?{tv_results:[item]}:{movie_results:[item]});}
         if(url.hostname==='image.tmdb.org')return new Response(picture);
         if(url.pathname.includes('/meta/movie/'))return Response.json({meta:{id:url.pathname.split('/').pop().replace('.json',''),imdbRating:'8.1',genres:['Drama'],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
         if(url.pathname.includes('/meta/series/'))return Response.json({meta:{id:url.pathname.split('/').pop().replace('.json',''),name:'No recent episode',country:'Turkey',videos:[],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});

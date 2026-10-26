@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,readFile,rm} from 'node:fs/promises';
+import {mkdtemp,mkdir,readFile,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import sharp from 'sharp';
@@ -30,14 +30,23 @@ test('All configured sources share cached posters; stale successful art survives
       if(outage)return new Response('',{status:503});
       return Response.json({meta:{id:url.pathname.split('/').pop().replace('.json',''),genres:['Thriller'],imdbRating:'8.3',poster:'https://image.tmdb.org/t/p/w780/test.jpg'}});
     }
+    if(url.hostname==='api.themoviedb.org'){
+      if(outage)return new Response('',{status:503});
+      const item={id:123,title:'Başlık',poster_path:'/verified.jpg',genre_ids:[53]};
+      return Response.json(url.pathname.includes('tt0903747')?{tv_results:[item]}:{movie_results:[item]});
+    }
+    assert.equal(url.hostname,'image.tmdb.org');assert.equal(url.pathname,'/t/p/w780/verified.jpg');
     images++;return new Response(image);
   };
   globalThis.fetch=fetcher;
   const sources=[];
   const readSource=async (_,s)=>{sources.push(s.catalogId);return [{id:'tt100',type:'movie',name:'Film',imdbRating:97,poster:'https://private.invalid/secret'}];};
   const specs=[{sources:[{catalogType:'movie',catalogId:'existing'}]}];
-  const run=async (out,now)=>{await mkdir(join(root,out));return buildLibraryPosters('https://xperience-app.com/private/manifest.json',readSource,specs,join(root,out),{cacheDir:join(root,'cache'),fetcher,now});};
+  const run=async (out,now)=>{await mkdir(join(root,out));return buildLibraryPosters('https://xperience-app.com/private/manifest.json',readSource,specs,join(root,out),{cacheDir:join(root,'cache'),fetcher,now,tmdbToken:'test-token'});};
   try{
+    await mkdir(join(root,'cache'));
+    await writeFile(join(root,'cache/movie-tt100.jpg'),'wrong cached image');
+    await writeFile(join(root,'cache/movie-tt100.json'),JSON.stringify({schema:2,id:'tt100',type:'movie',rating:'IMDB 8,3',artworkSource:'Cinemeta',updatedAt:100000000}));
     const first=await run('one',100000000);assert.equal(first.available,5);assert.equal(first.generated,5);
     assert.deepEqual(sources,['existing','new-copy']);
     const initial=await readFile(join(root,'one/art/movie/tt100.jpg'));
