@@ -55,3 +55,9 @@ yeniden işlenmez. Eski `trending_movies` satırı Discover only olarak korunur;
 günlük üretimin veri kaynağı olmaya devam eder. Her başarılı üretim afiş
 bağlantısına sürüm ekleyerek görsel önbelleğini yeniler. Genel poster sağlayıcısı
 ve diğer koleksiyonların afiş ayarları değiştirilmez.
+
+Afişlerin üst rozeti `BU LİSTEDE #1` biçimindedir. Numara, başarılı afişlerden
+oluşan yayınlanmış kataloğun sırasıdır; global/IMDB popülerlik sırası değildir.
+Afişi üretilemeyen adaylar numarada boşluk bırakmaz. Kişisel izlenenleri gizleme
+filtreleri cihazdaki görünür konumu değiştirebilir. Her günlük üretim numaraları
+ve görsel önbellek sürümünü birlikte yeniler.
