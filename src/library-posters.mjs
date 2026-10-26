@@ -2,6 +2,7 @@ import {mkdir,readFile,writeFile,copyFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {download,imageUrl,CoverError} from './core.mjs';
 import {renderPoster,posterLabels} from './posters.mjs';
+import {titleArtwork} from './tmdb-trends.mjs';
 
 const BASE='https://zevstr.github.io/nuvio-dinamik-kapaklar/';
 const DAY=86400000;
@@ -27,7 +28,7 @@ export function trustedDetail(payload,identity){
 // One shared identity path across every catalog. Never infer a rating from TMDB or
 // infer a stream's audio language from a title's country or original language.
 export async function buildLibraryPosters(manifestUrl,readSource,specs,output,{
-  cacheDir='.poster-cache',fetcher=fetch,now=Date.now(),maxTitles=8000,concurrency=8,
+  cacheDir='.poster-cache',fetcher=fetch,now=Date.now(),maxTitles=8000,concurrency=8,tmdbToken=process.env.TMDB_READ_ACCESS_TOKEN,
 }={}){
   let manifest;
   try{manifest=JSON.parse((await download(new URL(manifestUrl),5_000_000,fetcher)).toString());}catch{manifest={};}
@@ -58,10 +59,19 @@ export async function buildLibraryPosters(manifestUrl,readSource,specs,output,{
     const keep=async()=>{const bytes=await readFile(jpg);if(!bytes.length)throw Error();await copyFile(jpg,destination);totalBytes+=bytes.length;entries.push({...cached,stale:now-cached.updatedAt>=DAY});};
     if(cached&&now-cached.updatedAt<DAY){try{await keep();reused++;return;}catch{}}
     try{
-      const detail=trustedDetail(JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/${identity.type}/${identity.id}.json`),2_000_000,fetcher)).toString()),identity);
-      if(!detail?.poster)throw Error();
-      const bytes=await renderPoster(await download(new URL(detail.poster),12_000_000,fetcher),detail);
-      const entry={schema:2,...identity,name:detail.name,...posterLabels(detail),updatedAt:now};
+      let detail=null,bytes=null,artworkSource='Cinemeta';
+      try{
+        detail=trustedDetail(JSON.parse((await download(new URL(`https://v3-cinemeta.strem.io/meta/${identity.type}/${identity.id}.json`),2_000_000,fetcher)).toString()),identity);
+        if(detail?.poster)bytes=await renderPoster(await download(new URL(detail.poster),12_000_000,fetcher),detail);
+      }catch{}
+      if(!bytes){
+        const fallback=await titleArtwork(identity,tmdbToken,fetcher);
+        if(!fallback?.poster)throw Error();
+        // The TMDB vote_average is never copied into the IMDb rating slot.
+        detail={...fallback,imdbRating:detail?.imdbRating};artworkSource='TMDB exact IMDb lookup';
+        bytes=await renderPoster(await download(new URL(fallback.poster),12_000_000,fetcher),detail);
+      }
+      const entry={schema:2,...identity,name:detail.name,...posterLabels(detail),artworkSource,updatedAt:now};
       await writeFile(jpg,bytes);await writeFile(json,JSON.stringify(entry));
       await writeFile(destination,bytes);totalBytes+=bytes.length;entries.push(entry);generated++;
     }catch{

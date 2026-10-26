@@ -20,6 +20,16 @@ export async function seriesArtwork(id,token,fetcher=fetch){
   if(!item)return null;
   return {name:item.name,poster:item.poster_path?`https://image.tmdb.org/t/p/w780${item.poster_path}`:null};
 }
+const ART_GENRES={28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',99:'Documentary',18:'Drama',10751:'Family',14:'Fantasy',36:'History',27:'Horror',10402:'Music',9648:'Mystery',10749:'Romance',878:'Sci-Fi',53:'Thriller',10752:'War',37:'Western',10759:'Action',10762:'Kids',10763:'News',10764:'Reality',10765:'Sci-Fi',10766:'Soap',10767:'Talk',10768:'War'};
+export async function titleArtwork(identity,token,fetcher=fetch){
+  if(!/^tt\d+$/.test(identity.id)||!['movie','series'].includes(identity.type)||!token)return null;
+  const data=await readJson(`find/${identity.id}?external_source=imdb_id&language=tr-TR`,token,fetcher);
+  const results=identity.type==='movie'?data.movie_results:data.tv_results;
+  const item=results?.length===1?results[0]:null;
+  if(!item?.poster_path||!/^\/[A-Za-z0-9._-]+$/.test(item.poster_path))return null;
+  return {...identity,name:item.title??item.name??identity.id,poster:`https://image.tmdb.org/t/p/w780${item.poster_path}`,
+    genres:(item.genre_ids??[]).map(id=>ART_GENRES[id]).filter(Boolean)};
+}
 export async function loadTmdbTrends(token,{fetcher=fetch,pages=5,now=new Date()}={}){
   if(!token?.trim())throw new CoverError('TMDB_READ_ACCESS_TOKEN gizli ayarı gerekiyor. Önceki yayın korunuyor.');
   const dailyItems=[];const checkedAt=now.toISOString();const lists={day:new Map(),week:new Map()};

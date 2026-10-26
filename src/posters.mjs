@@ -3,6 +3,7 @@ import {loadTmdbTrends,trendLabel} from './tmdb-trends.mjs';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {download,imageUrl,xml,CoverError} from './core.mjs';
 const GENRES={Action:'Aksiyon',Adventure:'Macera',Animation:'Animasyon',Biography:'Biyografi',Comedy:'Komedi',Crime:'Suç',Documentary:'Belgesel',Drama:'Dram',Family:'Aile',Fantasy:'Fantastik',History:'Tarih',Horror:'Korku',Music:'Müzik',Musical:'Müzikal',Mystery:'Gizem',Romance:'Romantik','Sci-Fi':'Bilim Kurgu','Science Fiction':'Bilim Kurgu',Sport:'Spor',Thriller:'Gerilim',War:'Savaş',Western:'Western'};
+Object.assign(GENRES,{Kids:'Çocuk',News:'Haber',Reality:'Reality',Soap:'Pembe Dizi',Talk:'Söyleşi','Action & Adventure':'Aksiyon','Sci-Fi & Fantasy':'Bilim Kurgu','War & Politics':'Savaş'});
 export function posterLabels(meta){
   const genre=(meta.genres??[]).map(g=>GENRES[g]??(Object.values(GENRES).includes(g)?g:null)).find(Boolean)??'';
   const raw=String(meta.imdbRating??'').trim();

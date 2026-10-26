@@ -49,3 +49,28 @@ test('All configured sources share cached posters; stale successful art survives
     assert.ok(!status.includes('/private/'));assert.ok(!status.includes('secret'));
   }finally{globalThis.fetch=saved;await rm(root,{recursive:true,force:true});}
 });
+
+test('Exact TMDB artwork recovers missing Cinemeta titles without inventing an IMDb rating',async()=>{
+  const root=await mkdtemp(join(tmpdir(),'ozan-library-tmdb-'));
+  const image=await sharp({create:{width:500,height:750,channels:3,background:'#345678'}}).jpeg().toBuffer();
+  const saved=globalThis.fetch;let authenticated=0;
+  const fetcher=async (input,options)=>{
+    const u=new URL(input);assert.ok(!u.href.includes('test-private-token'));
+    if(u.pathname.endsWith('manifest.json'))return Response.json({catalogs:[]});
+    if(u.hostname==='v3-cinemeta.strem.io')return new Response('',{status:503});
+    if(u.hostname==='api.themoviedb.org'){
+      assert.equal(options.headers.Authorization,'Bearer test-private-token');authenticated++;
+      const item={id:123,title:'Türkçe Başlık',poster_path:'/real.jpg',genre_ids:[28],vote_average:9.9};
+      return Response.json(u.pathname.includes('tt0903747')?{tv_results:[item],movie_results:[]}:{movie_results:[item],tv_results:[]});
+    }
+    return new Response(image);
+  };
+  globalThis.fetch=fetcher;
+  try{
+    const result=await buildLibraryPosters('https://xperience-app.com/private/manifest.json',async()=>[],[],root,{cacheDir:join(root,'cache'),fetcher,tmdbToken:'test-private-token'});
+    assert.equal(result.available,4);assert.equal(authenticated,4);
+    const entry=JSON.parse(await readFile(join(root,'cache/movie-tt0133093.json')));
+    assert.equal(entry.genre,'Aksiyon');assert.equal(entry.rating,'');assert.equal(entry.artworkSource,'TMDB exact IMDb lookup');
+    assert.ok(!(await readFile(join(root,'art/status.json'),'utf8')).includes('test-private-token'));
+  }finally{globalThis.fetch=saved;await rm(root,{recursive:true,force:true});}
+});
