@@ -5,6 +5,7 @@ import {catalogUrl, download, normalizeCatalog, choosePhoto, renderCover, CoverE
 import {buildWeeklyCatalogs,weeklyManifest} from './weekly.mjs';
 import {buildPosters} from './posters.mjs';
 import {buildWeeklyPosters} from './weekly-posters.mjs';
+import {buildLibraryPosters} from './library-posters.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const specs = JSON.parse(await readFile(`${root}covers.json`, 'utf8'));
@@ -75,6 +76,8 @@ try {
   console.log(`Son 7 gün: ${weekly.inspected} dizi incelendi; ${weekly.local.length} yerli, ${weekly.foreign.length} yabancı; ${weekly.failed} yanıt alınamadı.`);
   const posterStatus=await buildPosters(manifest,readSource,staging);
   console.log(`Türkçe afişler: ${posterStatus.generated}/${posterStatus.candidates} hazır.`);
+  const libraryStatus=await buildLibraryPosters(manifest,readSource,specs,staging,{cacheDir:`${root}.poster-cache`});
+  console.log(`Ortak afişler: ${libraryStatus.available}/${libraryStatus.candidates} hazır; ${libraryStatus.sources} katalog kaynağı.`);
   const entries = [];
   for (const spec of specs) {
     if (!/^[a-z0-9-]+$/.test(spec.slug)) throw new CoverError('Kapak dosya adı geçersiz.');

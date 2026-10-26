@@ -2,7 +2,17 @@
 
 Xperience profilindeki **6 koleksiyon, 57 klasör** için kendi kataloglarından yapım görselleri seçer. Kapakların yanında son yedi günde bölümü yayınlanan yerli ve yabancı dizi katalogları üretir. Bu iki katalog bölüm tarihine göre süzülür; diğer katalogların içerik filtreleri Xperience tarafından yönetilir. Fotoğraflar yeniden üretilmez; yalnızca ölçeklenir, kırpılır ve sabit Türkçe tipografi eklenir. IMDB yazımı büyük harftir.
 
-## Günlük seçim
+## Ortak Türkçe afiş sağlayıcısı
+
+`src/library-posters.mjs`, `covers.json` kaynaklarını ve güncel Xperience manifestindeki film/dizi kataloglarını birlikte tarar. Tekrarlanan IMDb kimlikleri tek afişte birleştirilir. Adres şablonu: `https://zevstr.github.io/nuvio-dinamik-kapaklar/art/{type}/{imdb_id}.jpg`.
+
+Gerçek afiş Cinemeta'nın güvenilir TMDB/Metahub görselinden alınır; Türkçe tür ve yalnızca açık `imdbRating` alanı eklenir. Genel afişlerde listeye özgü sıra, bölüm veya doğrulanmamış ses/altyazı etiketleri bulunmaz. Gündemdeki Filmler ve son 7 gün kataloglarının özel afişleri kendi sıralama/bölüm bilgisini korur.
+
+Bu bir istek anında çalışan sunucu değildir. Kapsam, yapılandırılmış kaynakların taranan sayfalarıdır (normal kataloglarda ilk sayfa, IMDB 250'de mevcut çok sayfalı tarama). IMDb kimliği olmayan veya taranan sayfalara henüz girmeyen yapımlar kapsanmaz. Xperience sağlayıcı zincirinin orijinal görsele dönüşü canlı doğrulanmadan genel sağlayıcı değiştirilmemelidir. HTTP 200 dönen bir boş kapak üretilmez; eksik dosya 404 kalır.
+
+Tarama Türkiye 06.00/16.00 planında çalışır; görsel ve puan önbelleği 24 saattir. `.poster-cache` GitHub Actions önbelleğinde saklanır, git'e eklenmez. Tekil yenileme hatasında önbellekteki son başarılı afiş korunur. Yaygın hata veya boyut sınırı yeni Pages dağıtımını durdurur, önceki yayın korunur. `art/status.json` kapsamı, hazır/yenilenen/korunan/başarısız sayılarını açıklar; özel manifest bağlantısı veya API anahtarı yayınlanmaz.
+
+## Kapak fotoğrafı seçimi
 
 - Türkiye saatiyle yaklaşık **06:00 ve 16:00** kontrol edilir. Her gün zorunlu fotoğraf değişimi yapılmaz.
 - Güncellik yalnızca En Yeniler seçimine ağırlık verir. Klasik film, tür ve seri koleksiyonlarında eski yapımlar elenmez.

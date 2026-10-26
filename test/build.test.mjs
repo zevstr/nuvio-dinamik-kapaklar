@@ -15,7 +15,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await mkdir(join(temp,'src'));
     await writeFile(join(temp,'package.json'),'{"type":"module"}');
     await symlink(join(root,'node_modules'),join(temp,'node_modules'));
-    for(const name of ['build.mjs','core.mjs','weekly.mjs','weekly-posters.mjs','posters.mjs','tmdb-trends.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
+    for(const name of ['build.mjs','core.mjs','weekly.mjs','weekly-posters.mjs','posters.mjs','tmdb-trends.mjs','library-posters.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
     const pixels=Buffer.alloc(1280*720*3);
     for(let y=0;y<720;y++)for(let x=0;x<1280;x++){
       const v=((x>>4)+(y>>4))%2?200:30;
@@ -30,8 +30,8 @@ test('multi-source build handles an empty catalog and preserves the last success
         if(url.pathname.includes('/trending/movie/'))return Response.json({results:[{id:111}],total_pages:1});
         if(url.pathname.includes('/external_ids'))return Response.json({id:111,imdb_id:'tt111'});
         if(url.hostname==='image.tmdb.org')return new Response(picture);
-        if(url.pathname.includes('/meta/movie/'))return Response.json({meta:{id:'tt111',imdbRating:'8.1',genres:['Drama'],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
-        if(url.pathname.includes('/meta/series/'))return Response.json({meta:{name:'No recent episode',country:'Turkey',videos:[]}});
+        if(url.pathname.includes('/meta/movie/'))return Response.json({meta:{id:url.pathname.split('/').pop().replace('.json',''),imdbRating:'8.1',genres:['Drama'],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
+        if(url.pathname.includes('/meta/series/'))return Response.json({meta:{id:url.pathname.split('/').pop().replace('.json',''),name:'No recent episode',country:'Turkey',videos:[],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
         if(url.pathname.endsWith('status.json'))return Response.json({covers:[]});
         if(url.pathname.includes('unavailable'))return new Response('unavailable',{status:503});
         if(url.pathname.includes('empty'))return Response.json({metas:[]});
@@ -50,6 +50,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await run();
     const stateBytes=await readFile(join(temp,'dist','status.json'));
     const state=JSON.parse(stateBytes);
+    assert.equal(JSON.parse(await readFile(join(temp,'dist','art','status.json'))).available,5);
     assert.equal(state.covers.length,3);
     for(const id of ['weekly-local','weekly-foreign'])assert.equal(JSON.parse(await readFile(join(temp,'dist','catalog','series',id+'.json'))).cacheMaxAge,3600);
     assert.equal(state.covers[0].empty,false);
