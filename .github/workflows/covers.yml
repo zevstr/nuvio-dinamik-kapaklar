@@ -27,6 +27,7 @@ jobs:
         run: npm run build
         env:
           XPERIENCE_MANIFEST_URL: ${{ secrets.XPERIENCE_MANIFEST_URL }}
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:

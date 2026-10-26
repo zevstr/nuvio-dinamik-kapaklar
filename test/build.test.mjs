@@ -15,7 +15,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await mkdir(join(temp,'src'));
     await writeFile(join(temp,'package.json'),'{"type":"module"}');
     await symlink(join(root,'node_modules'),join(temp,'node_modules'));
-    for(const name of ['build.mjs','core.mjs','weekly.mjs','posters.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
+    for(const name of ['build.mjs','core.mjs','weekly.mjs','posters.mjs','tmdb-trends.mjs'])await copyFile(join(root,'src',name),join(temp,'src',name));
     const pixels=Buffer.alloc(1280*720*3);
     for(let y=0;y<720;y++)for(let x=0;x<1280;x++){
       const v=((x>>4)+(y>>4))%2?200:30;
@@ -27,6 +27,8 @@ test('multi-source build handles an empty catalog and preserves the last success
       const picture=await readFile(new URL('./fixture.jpg',import.meta.url));
       globalThis.fetch=async input=>{
         const url=new URL(input);
+        if(url.pathname.includes('/trending/movie/'))return Response.json({results:[{id:111}],total_pages:1});
+        if(url.pathname.includes('/external_ids'))return Response.json({id:111,imdb_id:'tt111'});
         if(url.hostname==='image.tmdb.org')return new Response(picture);
         if(url.pathname.includes('/meta/movie/'))return Response.json({meta:{id:'tt111',imdbRating:'8.1',genres:['Drama'],poster:'https://image.tmdb.org/t/p/original/fixture.jpg'}});
         if(url.pathname.includes('/meta/series/'))return Response.json({meta:{name:'No recent episode',country:'Turkey',videos:[]}});
@@ -44,7 +46,7 @@ test('multi-source build handles an empty catalog and preserves the last success
     await writeFile(join(temp,'fallbacks','sources.json'),JSON.stringify([{slug:'recover',contentId:'tt123',contentName:'Önceki Görsel'}]));
     const recover={...empty,slug:'recover'};
     await writeFile(join(temp,'covers.json'),JSON.stringify([populated,empty,recover]));
-    const run=()=>promisify(execFile)(process.execPath,['--import','./preload.mjs','src/build.mjs'],{cwd:temp,env:{...process.env,XPERIENCE_MANIFEST_URL:'https://xperience-app.com/test-private-secret/manifest.json'}});
+    const run=()=>promisify(execFile)(process.execPath,['--import','./preload.mjs','src/build.mjs'],{cwd:temp,env:{...process.env,TMDB_READ_ACCESS_TOKEN:'test-token',XPERIENCE_MANIFEST_URL:'https://xperience-app.com/test-private-secret/manifest.json'}});
     await run();
     const stateBytes=await readFile(join(temp,'dist','status.json'));
     const state=JSON.parse(stateBytes);
