@@ -74,7 +74,7 @@ export async function buildPosters(manifest,readSource,output,{trends}={}){
   entries.sort(comparePosterTrends);
   const positions=new Map(entries.map((entry,index)=>[entry.id,index]));
   metas.sort((a,b)=>positions.get(a.id)-positions.get(b.id));
-  const status={generatedAt:new Date().toISOString(),scope:'tmdb_daily_top20',ratingSource:'Cinemeta imdbRating',ranking:'tmdb_global_trending',rankingSource:'TMDB',trendCheckedAt:trendData.checkedAt,trendCoverage:{day:trendData.dayCount,week:trendData.weekCount,mapped:trendData.mapped,failed:trendData.failed},generated:entries.length,candidates:candidates.length,failed,entries};
+  const status={generatedAt:new Date().toISOString(),scope:'tmdb_daily_top20',ratingSource:'Cinemeta imdbRating',ranking:'tmdb_global_trending',rankingSource:'TMDB',trendCheckedAt:trendData.checkedAt,trendCoverage:{day:trendData.dayCount,week:trendData.weekCount,mapped:trendData.mapped,failed:trendData.failed,skippedDaily:trendData.skippedDaily??0},generated:entries.length,candidates:candidates.length,failed,entries};
   await mkdir(`${output}/posters/catalog/movie`,{recursive:true});
   await writeFile(`${output}/posters/manifest.json`,JSON.stringify(posterManifest()));
   await writeFile(`${output}/posters/catalog/movie/ozan-trending.json`,JSON.stringify({metas,cacheMaxAge:3600}));
@@ -82,3 +82,4 @@ export async function buildPosters(manifest,readSource,output,{trends}={}){
   await writeFile(`${output}/posters/index.html`,`<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ozan · Türkçe Afiş Denemesi</title><style>body{background:#0b0d10;color:#fff;font:18px system-ui;margin:32px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}img{width:100%;border-radius:16px}p{color:#bec5cf}article{max-width:300px}</style><h1>Gündemdeki Filmler · Türkçe Afişler</h1><p>Türkçe tür · Kaynağı belirtilen IMDB puanı · Günlük yenileme</p><p>Puan Cinemeta üzerinden alınır; puanı bulunmayan yapımlarda puan gösterilmez. Bu katalog doğrudan TMDB günlük ilk 20 filminden oluşur. Üst rozet ve katalog sırası aynı günlük veriden üretilir. Oynatma bağlantısı doğrulanmaz. Görseller ilgili hak sahiplerine aittir. <a href="https://www.themoviedb.org/">TMDB</a> · This product uses the TMDB API but is not endorsed or certified by TMDB.</p><main>${entries.map(e=>`<article><img src="movie/${e.id}.jpg?v=${version}" alt="${xml(e.name)}"><p>${xml(e.name)}</p></article>`).join('')}</main></html>`);
   return status;
 }
+

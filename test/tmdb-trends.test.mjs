@@ -1,6 +1,28 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {loadTmdbTrends,trendLabel} from '../src/tmdb-trends.mjs';
+test('A missing IMDb ID skips only that title and preserves global ranks',async()=>{
+ const fetcher=async url=>{
+  if(/\/(day|week)$/.test(url.pathname))return Response.json({results:Array.from({length:20},(_,i)=>({id:i+1})),total_pages:1});
+  const id=Number(url.pathname.split('/')[3]);return Response.json({id,imdb_id:id===2?null:`tt${id}`});
+ };
+ const data=await loadTmdbTrends('test',{fetcher});
+ assert.equal(data.dailyCandidates.length,19);assert.equal(data.skippedDaily,1);
+ assert.equal(data.dailyCandidates[1].id,'tt3');assert.equal(data.byImdb.get('tt3').rank,3);
+});
+test('Transient TMDB errors retry, while widespread missing IDs stop publication',async()=>{
+ let attempts=0;
+ const fetcher=async url=>{
+  if(url.pathname.endsWith('/day')&&++attempts===1)return new Response('',{status:503});
+  if(/\/(day|week)$/.test(url.pathname))return Response.json({results:Array.from({length:20},(_,i)=>({id:i+1})),total_pages:1});
+  const id=Number(url.pathname.split('/')[3]);return Response.json({id,imdb_id:`tt${id}`});
+ };
+ assert.equal((await loadTmdbTrends('test',{fetcher})).dailyCandidates.length,20);assert.equal(attempts,2);
+ await assert.rejects(loadTmdbTrends('test',{fetcher:async url=>{
+  if(/\/(day|week)$/.test(url.pathname))return Response.json({results:Array.from({length:20},(_,i)=>({id:i+1})),total_pages:1});
+  const id=Number(url.pathname.split('/')[3]);return Response.json({id,imdb_id:id<=5?null:`tt${id}`});
+ }}),/kapsamı yetersiz/);
+});
 test('TMDB rank labels require verified source, window and positive integer rank',()=>{
  assert.equal(trendLabel({source:'TMDB',period:'day',rank:7}),'TMDB · BUGÜN #7');
  assert.equal(trendLabel({source:'TMDB',period:'week',rank:23}),'TMDB · BU HAFTA #23');
@@ -25,3 +47,4 @@ test('Missing credentials and failed trending fetch stop publication without ech
  await assert.rejects(loadTmdbTrends(''),/TMDB_READ_ACCESS_TOKEN/);
  await assert.rejects(loadTmdbTrends('private',{fetcher:async()=>{throw Error('private external error')}}),e=>!e.message.includes('private')&&/TMDB/.test(e.message));
 });
+

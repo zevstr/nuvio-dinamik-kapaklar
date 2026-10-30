@@ -5,13 +5,20 @@ export function trendLabel(trend){
   return `TMDB · ${trend.period==='day'?'BUGÜN':'BU HAFTA'} #${trend.rank}`;
 }
 async function readJson(path,token,fetcher){
-  try{
+  for(let attempt=0;attempt<3;attempt++)try{
     const response=await fetcher(new URL(path,ROOT),{redirect:'error',signal:AbortSignal.timeout(20000),headers:{Authorization:`Bearer ${token}`,Accept:'application/json'}});
-    if(!response.ok||!response.body)throw Error();
+    if(!response.ok||!response.body){
+      if(response.status===429||response.status>=500)throw Error();
+      throw new CoverError('TMDB isteği reddedildi. Önceki yayın korunuyor.');
+    }
     let size=0;const chunks=[];
     for await(const c of response.body){size+=c.length;if(size>4_000_000)throw Error();chunks.push(c);}
     return JSON.parse(Buffer.concat(chunks).toString());
-  }catch{throw new CoverError('TMDB trend verisi okunamadı. Önceki yayın korunuyor.');}
+  }catch(error){
+    if(error instanceof CoverError)throw error;
+    if(attempt===2)throw new CoverError('TMDB trend verisi okunamadı. Önceki yayın korunuyor.');
+    await new Promise(resolve=>setTimeout(resolve,250*2**attempt));
+  }
 }
 export async function seriesArtwork(id,token,fetcher=fetch){
   if(!/^tt\d+$/.test(id)||!token)return null;
@@ -58,7 +65,10 @@ export async function loadTmdbTrends(token,{fetcher=fetch,pages=5,now=new Date()
     const imdb=imdbIds.get(tmdbId);
     if(imdb&&!byImdb.has(imdb))byImdb.set(imdb,{source:'TMDB',period,rank,tmdbId,checkedAt});
   }
-  const dailyCandidates=dailyItems.slice(0,20).map(item=>({id:imdbIds.get(item.id),type:'movie',name:item.title||item.original_title||`TMDB ${item.id}`,description:item.overview||'',releaseInfo:item.release_date||'',poster:item.poster_path?`https://image.tmdb.org/t/p/w780${item.poster_path}`:null,background:item.backdrop_path?`https://image.tmdb.org/t/p/w1280${item.backdrop_path}`:null}));
-  if(dailyCandidates.some(item=>!item.id))throw new CoverError('TMDB günlük ilk 20 kimlikleri eksik. Önceki yayın korunuyor.');
-  return {dailyCandidates,byImdb,checkedAt,dayCount:lists.day.size,weekCount:lists.week.size,mapped:imdbIds.size,failed};
+  const dailyTop=dailyItems.slice(0,20);
+  const dailyCandidates=dailyTop.map(item=>({id:imdbIds.get(item.id),type:'movie',name:item.title||item.original_title||`TMDB ${item.id}`,description:item.overview||'',releaseInfo:item.release_date||'',poster:item.poster_path?`https://image.tmdb.org/t/p/w780${item.poster_path}`:null,background:item.backdrop_path?`https://image.tmdb.org/t/p/w1280${item.backdrop_path}`:null})).filter(item=>item.id);
+  const skippedDaily=dailyTop.length-dailyCandidates.length;
+  if(!dailyCandidates.length||dailyCandidates.length<Math.ceil(dailyTop.length*.8))throw new CoverError('TMDB günlük kimlik kapsamı yetersiz. Önceki yayın korunuyor.');
+  return {dailyCandidates,byImdb,checkedAt,dayCount:lists.day.size,weekCount:lists.week.size,skippedDaily,mapped:imdbIds.size,failed};
 }
+
